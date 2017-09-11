@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_usage_report</id>
+	<name>User usage report</name>
+	<summary>User usage report</summary>
+	<description><![CDATA[User usage report]]></description>
+
+	<licence>AGPL</licence>
+	<author>Joas Schilling</author>
+
+	<category>monitoring</category>
+
+	<website>https://github.com/nextcloud-gmbh/user_usage_report</website>
+	<bugs>https://github.com/nextcloud-gmbh/user_usage_report/issues</bugs>
+	<repository type="git">https://github.com/nextcloud-gmbh/user_usage_report.git</repository>
+
+	<version>0.2.0</version>
+	<namespace>UserUsageReport</namespace>
+
+	<types>
+		<filesystem/>
+	</types>
+
+	<dependencies>
+		<nextcloud min-version="13" max-version="13" />
+	</dependencies>
+</info>
