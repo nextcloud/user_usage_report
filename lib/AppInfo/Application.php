@@ -23,7 +23,6 @@ namespace OCA\UserUsageReport\AppInfo;
 
 use OCP\Util;
 use OCA\UserUsageReport\Listener;
-use OCA\UserUsageReport\Usage;
 use OCP\AppFramework\App;
 
 class Application extends App {
@@ -34,13 +33,6 @@ class Application extends App {
 
 	public function register() {
 		$this->registerFilesActivity();
-
-		/** @var Usage $usage */
-		$usage = $this->getContainer()->query(Usage::class);
-		$before = microtime(true);
-		$report = $usage->getReport('admin');
-		$duration = microtime(true) - $before;
-		$report = [];
 	}
 
 	/**

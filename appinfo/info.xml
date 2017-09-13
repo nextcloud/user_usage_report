@@ -24,4 +24,8 @@
 	<dependencies>
 		<nextcloud min-version="13" max-version="13" />
 	</dependencies>
+
+	<commands>
+		<command>OCA\UserUsageReport\Command\Generate</command>
+	</commands>
 </info>
