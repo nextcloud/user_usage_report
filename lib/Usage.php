@@ -113,7 +113,7 @@ class Usage {
 
 		return [
 			'files' => $numFiles,
-			'used' => $usedSpace,
+			'used' => \OC_Helper::humanFileSize($usedSpace),
 		];
 	}
 
@@ -139,7 +139,7 @@ class Usage {
 		if ($quota) {
 			$quota = \OC_Helper::computerFileSize($quota);
 			if ($quota !== false) {
-				return (int) $quota;
+				return \OC_Helper::humanFileSize((int) $quota);
 			}
 		}
 
