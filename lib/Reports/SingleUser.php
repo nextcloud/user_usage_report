@@ -19,15 +19,16 @@
  *
  */
 
-namespace OCA\UserUsageReport;
+namespace OCA\UserUsageReport\Reports;
 
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class Usage {
+class SingleUser {
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -44,10 +45,10 @@ class Usage {
 	}
 
 	/**
+	 * @param OutputInterface $output
 	 * @param string $userId
-	 * @return array
 	 */
-	public function getReport($userId) {
+	public function printReport(OutputInterface $output, $userId) {
 		$this->createQueries();
 
 		$report = array_merge(
@@ -58,7 +59,14 @@ class Usage {
 		$report['quota'] = $this->getUserQuota($userId);
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
 
-		return $report;
+		$data = $userId . ',';
+		$data .= $report['quota'] . ',';
+		$data .= $report['used'] . ',';
+		$data .= $report['files'] . ',';
+		$data .= $report['shares'] . ',';
+		$data .= $report['uploads'] . ',';
+		$data .= $report['downloads'];
+		$output->writeln($data);
 	}
 
 	/**

@@ -23,8 +23,8 @@
 
 namespace OCA\UserUsageReport\Command;
 
-use OCA\UserUsageReport\Usage;
-use OCP\IUser;
+use OCA\UserUsageReport\Reports\AllUsers;
+use OCA\UserUsageReport\Reports\SingleUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,27 +33,35 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Generate extends Command {
 
-	/** @var Usage */
-	protected $usage;
+	/** @var SingleUser */
+	protected $single;
+
+	/** @var AllUsers */
+	protected $all;
 
 	/** @var IUserManager */
 	protected $userManager;
 
 	/**
-	 * @param Usage $usage
+	 * @param SingleUser $single
+	 * @param AllUsers $all
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(Usage $usage, IUserManager $userManager) {
+	public function __construct(SingleUser $single, AllUsers $all, IUserManager $userManager) {
 		parent::__construct();
 
-		$this->usage = $usage;
+		$this->single = $single;
+		$this->all = $all;
 		$this->userManager = $userManager;
 	}
 
 	protected function configure() {
 		$this
 			->setName('usage-report:generate')
-			->setDescription('Sends the activity notification mails')
+			->setDescription(
+				'Prints a CVS entry with some usage information of the user:' . "\n"
+				. 'userId,assignedQuota,usedQuota,numFiles,numShares,numUploads,numDownloads'
+			)
 			->addArgument(
 				'user-id',
 				InputArgument::OPTIONAL,
@@ -69,28 +77,11 @@ class Generate extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getArgument('user-id')) {
-			$userId = $input->getArgument('user-id');
-
-			$report = $this->usage->getReport($userId);
-			$this->writeRecord($output, $userId, $report);
+			$this->single->printReport($output, $input->getArgument('user-id'));
 		} else {
-			$this->userManager->callForSeenUsers(function(IUser $user) use ($output) {
-				$report = $this->usage->getReport($user->getUID());
-				$this->writeRecord($output, $user->getUID(), $report);
-			});
+			$this->all->printReport($output);
 		}
 
 		return 0;
-	}
-
-	protected function writeRecord(OutputInterface $output, $userId, array $report) {
-		$data = $userId . ',';
-		$data .= $report['quota'] . ',';
-		$data .= $report['used'] . ',';
-		$data .= $report['files'] . ',';
-		$data .= $report['shares'] . ',';
-		$data .= $report['uploads'] . ',';
-		$data .= $report['downloads'];
-		$output->writeln($data);
 	}
 }
