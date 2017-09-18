@@ -61,7 +61,8 @@ class Generate extends Command {
 			->setName('usage-report:generate')
 			->setDescription(
 				'Prints a CVS entry with some usage information of the user:' . "\n"
-				. 'userId,assignedQuota,usedQuota,numFiles,numShares,numUploads,numDownloads'
+				. 'userId,assignedQuota,usedQuota,numFiles,numShares,numUploads,numDownloads' . "\n"
+				. '"admin","5 GB","2.75 GB",1024,23,1400,5678'
 			)
 			->addArgument(
 				'user-id',

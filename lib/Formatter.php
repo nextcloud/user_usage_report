@@ -30,9 +30,9 @@ trait Formatter {
 	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report) {
 		$separator = $input->getOption('field-separator');
 
-		$data = $userId . $separator;
-		$data .= $report['quota'] . $separator;
-		$data .= $report['used'] . $separator;
+		$data = '"'. $userId . '"'. $separator;
+		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
+		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
 		$data .= $report['files'] . $separator;
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
