@@ -22,8 +22,23 @@
 namespace OCA\UserUsageReport;
 
 use OCP\Files\FileInfo;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-trait Helper {
+trait Formatter {
+
+	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report) {
+		$separator = $input->getOption('field-separator');
+
+		$data = $userId . $separator;
+		$data .= $report['quota'] . $separator;
+		$data .= $report['used'] . $separator;
+		$data .= $report['files'] . $separator;
+		$data .= $report['shares'] . $separator;
+		$data .= $report['uploads'] . $separator;
+		$data .= $report['downloads'];
+		$output->writeln($data);
+	}
 
 	public function humanFileSize($bytes) {
 		if ($bytes < 0) {

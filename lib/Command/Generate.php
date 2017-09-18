@@ -29,6 +29,7 @@ use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Generate extends Command {
@@ -67,6 +68,13 @@ class Generate extends Command {
 				InputArgument::OPTIONAL,
 				'User to generate the report for, if none is given the report is generated for all users'
 			)
+			->addOption(
+				'field-separator',
+				'',
+				InputOption::VALUE_REQUIRED,
+				'Separator for the fields in the list',
+				','
+			)
 		;
 	}
 
@@ -77,9 +85,9 @@ class Generate extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getArgument('user-id')) {
-			$this->single->printReport($output, $input->getArgument('user-id'));
+			$this->single->printReport($input, $output, $input->getArgument('user-id'));
 		} else {
-			$this->all->printReport($output);
+			$this->all->printReport($input, $output);
 		}
 
 		return 0;

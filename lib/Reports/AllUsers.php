@@ -22,19 +22,20 @@
 namespace OCA\UserUsageReport\Reports;
 
 
-use OCA\UserUsageReport\Helper;
+use OCA\UserUsageReport\Formatter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AllUsers {
 	const BATCH_SIZE = 1000;
 
-	use Helper;
+	use Formatter;
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -64,9 +65,11 @@ class AllUsers {
 	}
 
 	/**
+	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @param string $separator
 	 */
-	public function printReport(OutputInterface $output) {
+	public function printReport(InputInterface $input, OutputInterface $output) {
 		$this->createQueries();
 
 		$default = [
@@ -94,19 +97,8 @@ class AllUsers {
 		$this->getNumberOfShares();
 
 		foreach ($this->reports as $userId => $report) {
-			$this->printRecord($output, $userId, $report);
+			$this->printRecord($input, $output, $userId, $report);
 		}
-	}
-
-	protected function printRecord(OutputInterface $output, $userId, array $report) {
-		$data = $userId . ',';
-		$data .= $report['quota'] . ',';
-		$data .= $report['used'] . ',';
-		$data .= $report['files'] . ',';
-		$data .= $report['shares'] . ',';
-		$data .= $report['uploads'] . ',';
-		$data .= $report['downloads'];
-		$output->writeln($data);
 	}
 
 	protected function getNumberOfActions() {
