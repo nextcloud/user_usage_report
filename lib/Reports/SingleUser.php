@@ -22,6 +22,7 @@
 namespace OCA\UserUsageReport\Reports;
 
 
+use OCA\UserUsageReport\Helper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
@@ -29,6 +30,8 @@ use OCP\IDBConnection;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SingleUser {
+
+	use Helper;
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -121,7 +124,7 @@ class SingleUser {
 
 		return [
 			'files' => $numFiles,
-			'used' => \OC_Helper::humanFileSize($usedSpace),
+			'used' => $this->humanFileSize($usedSpace),
 		];
 	}
 
@@ -147,7 +150,7 @@ class SingleUser {
 		if ($quota) {
 			$quota = \OC_Helper::computerFileSize($quota);
 			if ($quota !== false) {
-				return \OC_Helper::humanFileSize((int) $quota);
+				return $this->humanFileSize((int) $quota);
 			}
 		}
 

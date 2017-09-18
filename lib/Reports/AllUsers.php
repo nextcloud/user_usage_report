@@ -22,6 +22,7 @@
 namespace OCA\UserUsageReport\Reports;
 
 
+use OCA\UserUsageReport\Helper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
@@ -32,6 +33,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AllUsers {
 	const BATCH_SIZE = 1000;
+
+	use Helper;
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -185,7 +188,7 @@ class AllUsers {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$this->storages[(int) $row['storage']]['used'] = \OC_Helper::humanFileSize((int) $row['size']);
+			$this->storages[(int) $row['storage']]['used'] = $this->humanFileSize((int) $row['size']);
 		}
 		$result->closeCursor();
 	}
