@@ -27,10 +27,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 trait Formatter {
 
+	protected $timestamp;
+
 	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report) {
 		$separator = $input->getOption('field-separator');
+		if ($this->timestamp === null) {
+			$this->timestamp = date($input->getOption('date-format'));
+		}
 
 		$data = '"'. $userId . '"'. $separator;
+		$data .= '"'. $this->timestamp . '"'. $separator;
 		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
 		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
 		$data .= $report['files'] . $separator;
