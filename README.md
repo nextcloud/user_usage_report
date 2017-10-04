@@ -19,7 +19,9 @@ $ sudo -u www-data ./occ usage-report:generate
 ```
 
 The CVS data is the following:
+
 * User identifier
+* Date and time (default in ISO 8601 format, but any format can be specified)
 * Assigned home storage size (`-3` is unlimited, `-2` is unknown/not set)
 * Disk space consumed by home storage
 * Number of files in home storage
