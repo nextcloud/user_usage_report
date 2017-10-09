@@ -119,7 +119,7 @@ class SingleUser {
 
 		return [
 			'files' => $numFiles,
-			'used' => $this->humanFileSize($usedSpace),
+			'used' => $usedSpace,
 		];
 	}
 
@@ -145,7 +145,7 @@ class SingleUser {
 		if ($quota) {
 			$quota = \OC_Helper::computerFileSize($quota);
 			if ($quota !== false) {
-				return $this->humanFileSize((int) $quota);
+				return (int) $quota;
 			}
 		}
 

@@ -62,7 +62,7 @@ class Generate extends Command {
 			->setDescription(
 				'Prints a CVS entry with some usage information of the user:' . "\n"
 				. 'userId,date,assignedQuota,usedQuota,numFiles,numShares,numUploads,numDownloads' . "\n"
-				. '"admin","2017-09-18T09:00:01+00:00","5 GB","2.75 GB",1024,23,1400,5678'
+				. '"admin","2017-09-18T09:00:01+00:00",5368709120,786432000,1024,23,1400,5678'
 			)
 			->addArgument(
 				'user-id',

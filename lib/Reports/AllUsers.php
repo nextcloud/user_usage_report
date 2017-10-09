@@ -180,7 +180,7 @@ class AllUsers {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$this->storages[(int) $row['storage']]['used'] = $this->humanFileSize((int) $row['size']);
+			$this->storages[(int) $row['storage']]['used'] = (int) $row['size'];
 		}
 		$result->closeCursor();
 	}
@@ -227,7 +227,8 @@ class AllUsers {
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			if ($row['configvalue'] !== 'default') {
-				$this->reports[$row['userid']]['quota'] = $row['configvalue'];
+				$quota = \OC_Helper::computerFileSize($row['configvalue']);
+				$this->reports[$row['userid']]['quota'] = $quota === false ? $row['configvalue'] : $quota;
 			}
 			$numResults++;
 		}
