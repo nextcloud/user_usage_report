@@ -100,10 +100,28 @@ class SingleUser {
 	 */
 	protected function getFilecacheStatsForUser($userId) {
 		$query = $this->queries['getStorageId'];
-		$query->setParameter('storage_identifier', 'home::' . $userId);
+
+		$home = 'home::' . $userId;
+		if (strlen($home) > 64) {
+			$home = md5($home);
+		}
+
+		$query->setParameter('storage_identifier', $home);
 		$result = $query->execute();
 		$storageId = (int) $result->fetchColumn();
 		$result->closeCursor();
+
+		if ($storageId === 0) {
+			$home = 'object::user::' . $userId;
+			if (strlen($home) > 64) {
+				$home = md5($home);
+			}
+
+			$query->setParameter('storage_identifier', $home);
+			$result = $query->execute();
+			$storageId = (int) $result->fetchColumn();
+			$result->closeCursor();
+		}
 
 		$query = $this->queries['countFiles'];
 		$query->setParameter('storage_identifier', $storageId);
