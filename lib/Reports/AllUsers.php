@@ -67,7 +67,6 @@ class AllUsers {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @param string $separator
 	 */
 	public function printReport(InputInterface $input, OutputInterface $output) {
 		$this->createQueries();
@@ -85,6 +84,12 @@ class AllUsers {
 			$this->reports[$user->getUID()] = $default;
 
 			$home = 'home::' . $user->getUID();
+			if (strlen($home) > 64) {
+				$home = md5($home);
+			}
+			$this->storageMap[$home] = $user->getUID();
+
+			$home = 'object::user:' . $user->getUID();
 			if (strlen($home) > 64) {
 				$home = md5($home);
 			}
