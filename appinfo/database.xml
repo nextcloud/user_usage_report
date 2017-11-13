@@ -31,8 +31,15 @@
 				<name>usage_report_uta</name>
 				<field>
 					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
 					<name>action</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
 					<name>timestamp</name>
+					<sorting>ascending</sorting>
 				</field>
 			</index>
 		</declaration>
