@@ -10,9 +10,9 @@
 
 	<category>monitoring</category>
 
-	<website>https://github.com/nextcloud-gmbh/user_usage_report</website>
-	<bugs>https://github.com/nextcloud-gmbh/user_usage_report/issues</bugs>
-	<repository type="git">https://github.com/nextcloud-gmbh/user_usage_report.git</repository>
+	<website>https://github.com/nextcloud/user_usage_report</website>
+	<bugs>https://github.com/nextcloud/user_usage_report/issues</bugs>
+	<repository type="git">https://github.com/nextcloud/user_usage_report.git</repository>
 
 	<version>1.0.0</version>
 	<namespace>UserUsageReport</namespace>
