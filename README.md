@@ -18,7 +18,7 @@ $ sudo -u www-data ./occ usage-report:generate
 "test5","2017-09-18T09:00:01+00:00",-2,164,4,0,0,0
 ```
 
-The CVS data is the following:
+The CSV data is the following:
 
 * User identifier
 * Date and time (default in ISO 8601 format, but any format can be specified)
