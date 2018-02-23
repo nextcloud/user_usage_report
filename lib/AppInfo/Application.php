@@ -21,9 +21,11 @@
 
 namespace OCA\UserUsageReport\AppInfo;
 
+use OCP\IPreview;
 use OCP\Util;
 use OCA\UserUsageReport\Listener;
 use OCP\AppFramework\App;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 
@@ -41,9 +43,16 @@ class Application extends App {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function registerFilesActivity() {
+		/** @var Listener $listener */
 		$listener = $this->getContainer()->query(Listener::class);
 
 		Util::connectHook('OC_Filesystem', 'post_create', $listener, 'fileCreated');
 		Util::connectHook('OC_Filesystem', 'read', $listener, 'fileRead');
+
+		$this->getContainer()->getServer()->getEventDispatcher()->addListener(IPreview::EVENT, function (GenericEvent $event) use ($listener) {
+			if ($event->getArgument('width') > 64 || $event->getArgument('height') > 64) {
+				$listener->fileRead();
+			}
+		});
 	}
 }
