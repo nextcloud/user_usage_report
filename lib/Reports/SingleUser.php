@@ -112,7 +112,7 @@ class SingleUser {
 		$result->closeCursor();
 
 		if ($storageId === 0) {
-			$home = 'object::user::' . $userId;
+			$home = 'object::user:' . $userId;
 			if (strlen($home) > 64) {
 				$home = md5($home);
 			}
