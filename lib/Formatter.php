@@ -44,8 +44,8 @@ trait Formatter {
 		'Android' => 			IRequest::USER_AGENT_CLIENT_ANDROID,
 		'Talk for Android' =>	IRequest::USER_AGENT_TALK_ANDROID,
 		'Desktop client' => 	IRequest::USER_AGENT_CLIENT_DESKTOP,
-		'IOS client' => 		IRequest::USER_AGENT_CLIENT_IOS,
-		'Talk for IOS' => 		IRequest::USER_AGENT_TALK_IOS,
+		'iOS client' => 		IRequest::USER_AGENT_CLIENT_IOS,
+		'Talk for iOS' => 		IRequest::USER_AGENT_TALK_IOS,
 		'Outlook' => 			IRequest::USER_AGENT_OUTLOOK_ADDON,
 		'Thunderbird' => 		IRequest::USER_AGENT_THUNDERBIRD_ADDON
 	];
