@@ -63,6 +63,7 @@ class SingleUser {
 
 		$report['quota'] = $this->getUserQuota($userId);
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
+		$report['platform'] = $this->parseUserAgent($userId);
 
 		$this->printRecord($input, $output, $userId, $report);
 	}
@@ -185,6 +186,20 @@ class SingleUser {
 	}
 
 	/**
+	 * @param string $userId
+	 * @return string
+	 */
+	protected function parseUserAgent($userId) {
+		$query = $this->queries['userAgent'];
+		$query->setParameter('uid', $userId);
+		$result = $query->execute();
+		$userAgent = (string) $result->fetchColumn();
+		$result->closeCursor();
+
+		return $this->getPlatformFromUA($userAgent);
+	}
+
+	/**
 	 * @param string $action
 	 * @return string
 	 * @throws \InvalidArgumentException
@@ -251,5 +266,14 @@ class SingleUser {
 			->where($query->expr()->eq('user_id', $query->createParameter('user')))
 			->groupBy('action');
 		$this->queries['countActions'] = $query;
+
+		// Get last active session
+		$query = $this->connection->getQueryBuilder();
+		$query->select('name')
+			->from('authtoken')
+			->where($query->expr()->eq('uid', $query->createParameter('uid')))
+			->orderBy('last_check', 'DESC')
+			->setMaxResults(1);
+		$this->queries['userAgent'] = $query;
 	}
 }

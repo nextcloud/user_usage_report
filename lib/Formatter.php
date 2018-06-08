@@ -21,13 +21,31 @@
 
 namespace OCA\UserUsageReport;
 
+use OC\AppFramework\Http\Request;
 use OCP\Files\FileInfo;
+use OCP\IRequest;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 trait Formatter {
 
 	protected $timestamp;
+
+	protected $userAgents = [
+		'IE' => 				Request::USER_AGENT_IE,
+		'Edge' => 				Request::USER_AGENT_MS_EDGE,
+		'Chrome' => 			Request::USER_AGENT_CHROME,
+		'Firefox' => 			Request::USER_AGENT_FIREFOX,
+		'Safari' => 			Request::USER_AGENT_SAFARI,
+		'Chrome for Android' => Request::USER_AGENT_ANDROID_MOBILE_CHROME,
+		'Android' => 			IRequest::USER_AGENT_CLIENT_ANDROID,
+		'Talk for Android' =>	IRequest::USER_AGENT_TALK_ANDROID,
+		'Desktop client' => 	IRequest::USER_AGENT_CLIENT_DESKTOP,
+		'IOS client' => 		IRequest::USER_AGENT_CLIENT_IOS,
+		'Talk for IOS' => 		IRequest::USER_AGENT_TALK_IOS,
+		'Outlook' => 			IRequest::USER_AGENT_OUTLOOK_ADDON,
+		'Thunderbird' => 		IRequest::USER_AGENT_THUNDERBIRD_ADDON
+	];
 
 	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report) {
 		$separator = $input->getOption('field-separator');
@@ -42,7 +60,8 @@ trait Formatter {
 		$data .= $report['files'] . $separator;
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
-		$data .= $report['downloads'];
+		$data .= $report['downloads'] . $separator;
+		$data .= $report['platform'];
 		$output->writeln($data);
 	}
 
@@ -73,6 +92,18 @@ trait Formatter {
 
 		$bytes = round($bytes / 1024, 2);
 		return "$bytes PB";
+	}
+
+	public function getPlatformFromUA(string $userAgent) {
+		if ($userAgent === '') {
+			return 'None';
+		}
+		foreach ($this->userAgents as $platform => $regex) {
+			if (preg_match($regex, $userAgent)) {
+				return $platform;
+			}
+		}
+		return 'Unknown';
 	}
 
 }
