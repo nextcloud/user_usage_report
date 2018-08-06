@@ -92,6 +92,20 @@ class Generate extends Command {
 	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+			$separator = $input->getOption('field-separator');
+
+			$data = '"user-id"'. $separator;
+			$data .= '"date as \'' . $input->getOption('date-format') . '\'"'. $separator;
+			$data .= '"assigned quota (5 GB)"'. $separator;
+			$data .= '"used quota (500 MB)"'. $separator;
+			$data .= 'number of files'. $separator;
+			$data .= 'number of shares'. $separator;
+			$data .= 'number of uploads'. $separator;
+			$data .= 'number of downloads'. $separator;
+			$output->writeln($data);
+		}
+
 		if ($input->getArgument('user-id')) {
 			$this->single->printReport($input, $output, $input->getArgument('user-id'));
 		} else {
