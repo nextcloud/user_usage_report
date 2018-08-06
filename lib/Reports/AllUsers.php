@@ -199,7 +199,7 @@ class AllUsers {
 		while ($row = $result->fetch()) {
 			$storage = (int) $row['numeric_id'];
 
-			if (!isset($this->storageMap[$row['id']])) {
+			if (!isset($this->storageMap[$row['id']], $this->storages[$storage])) {
 				unset($this->storages[$storage]);
 				continue;
 			}
