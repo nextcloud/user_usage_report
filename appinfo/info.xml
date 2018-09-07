@@ -1,28 +1,29 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>user_usage_report</id>
 	<name>User usage report</name>
 	<summary>User usage report</summary>
 	<description><![CDATA[User usage report]]></description>
 
-	<licence>AGPL</licence>
+	<version>1.1.0</version>
+	<licence>agpl</licence>
 	<author>Joas Schilling</author>
 
-	<category>monitoring</category>
-
-	<website>https://github.com/nextcloud/user_usage_report</website>
-	<bugs>https://github.com/nextcloud/user_usage_report/issues</bugs>
-	<repository type="git">https://github.com/nextcloud/user_usage_report.git</repository>
-
-	<version>1.1.0</version>
 	<namespace>UserUsageReport</namespace>
 
 	<types>
 		<filesystem/>
 	</types>
 
+	<category>monitoring</category>
+
+	<website>https://github.com/nextcloud/user_usage_report</website>
+	<bugs>https://github.com/nextcloud/user_usage_report/issues</bugs>
+	<repository>https://github.com/nextcloud/user_usage_report.git</repository>
+
 	<dependencies>
-		<nextcloud min-version="12" max-version="14" />
+		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
 
 	<commands>
