@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,6 +81,7 @@ class AllUsers {
 			'used' => FileInfo::SPACE_UNKNOWN,
 			'quota' => $this->config->getAppValue('files', 'default_quota', FileInfo::SPACE_UNKNOWN),
 			'shares' => 0,
+			'platform' => 'None'
 		];
 
 		$this->userManager->callForAllUsers(function(IUser $user) use ($default) {
@@ -100,6 +104,7 @@ class AllUsers {
 		$this->getNumberOfActions();
 		$this->getUserQuota();
 		$this->getNumberOfShares();
+		$this->getUserAgents();
 
 		foreach ($this->reports as $userId => $report) {
 			$this->printRecord($input, $output, $userId, $report);
@@ -210,6 +215,34 @@ class AllUsers {
 			unset($this->storages[$storage]);
 		}
 		$result->closeCursor();
+	}
+
+	protected function getUserAgents() {
+		$offset = 0;
+		do {
+			$result = $this->parseUserAgents($offset);
+			$offset += $result['results'];
+		} while ($result['results'] === self::BATCH_SIZE);
+	}
+
+	/**
+	 * @param int $offset
+	 * @return array
+	 */
+	protected function parseUserAgents($offset) {
+		$query = $this->queries['userAgents'];
+		$query->setFirstResult($offset);
+
+		$result = $query->execute();
+		$numResults = 0;
+		while ($row = $result->fetch()) {
+			$userAgent = $row['name'];
+			$this->reports[$row['uid']]['platform'] = $this->getPlatformFromUA($userAgent);
+			$numResults++;
+		}
+		$result->closeCursor();
+
+		return $numResults;
 	}
 
 	protected function getUserQuota() {
@@ -346,5 +379,14 @@ class AllUsers {
 			->orderBy('user_id', 'ASC')
 			->addOrderBy('action', 'ASC');
 		$this->queries['countActions'] = $query;
+
+		// Get last active sessions
+		$query = $this->connection->getQueryBuilder();
+		$query->select(['uid', 'name'])
+			->from('authtoken')
+			->groupBy('uid')
+			->orderBy('last_check', 'DESC')
+			->setMaxResults(self::BATCH_SIZE);
+		$this->queries['userAgents'] = $query;
 	}
 }
