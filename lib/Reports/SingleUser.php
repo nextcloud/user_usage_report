@@ -62,6 +62,9 @@ class SingleUser {
 		);
 
 		$report['quota'] = $this->getUserQuota($userId);
+		if ($input->getOption('last-login')) {
+			$report['login'] = $this->getUserLastLogin($userId);
+		}
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
 
 		$this->printRecord($input, $output, $userId, $report);
@@ -139,6 +142,20 @@ class SingleUser {
 			'files' => $numFiles,
 			'used' => $usedSpace,
 		];
+	}
+
+	/**
+	 * @param string $userId
+	 * @return int
+	 */
+	protected function getUserLastLogin($userId) {
+		$query = $this->queries['lastLogin'];
+		$query->setParameter('user', $userId);
+		$result = $query->execute();
+		$lastLogin = $result->fetchColumn();
+		$result->closeCursor();
+
+		return (int) $lastLogin;
 	}
 
 	/**
@@ -235,6 +252,15 @@ class SingleUser {
 			->andWhere($query->expr()->eq('appid', $query->createNamedParameter('files')))
 			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('quota')));
 		$this->queries['getQuota'] = $query;
+
+		// Get quota
+		$query = $this->connection->getQueryBuilder();
+		$query->select('configvalue')
+			->from('preferences')
+			->where($query->expr()->eq('userid', $query->createParameter('user')))
+			->andWhere($query->expr()->eq('appid', $query->createNamedParameter('login')))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('lastLogin')));
+		$this->queries['lastLogin'] = $query;
 
 		// Get number of shares
 		$query = $this->connection->getQueryBuilder();

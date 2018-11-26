@@ -83,6 +83,12 @@ class Generate extends Command {
 				'Date format of the entries (see http://php.net/manual/en/function.date.php for more information)',
 				'c'
 			)
+			->addOption(
+				'last-login',
+				'',
+				InputOption::VALUE_NONE,
+				'Should the last login date be included in the report'
+			)
 		;
 	}
 
@@ -97,6 +103,9 @@ class Generate extends Command {
 
 			$data = '"user-id"'. $separator;
 			$data .= '"date as \'' . $input->getOption('date-format') . '\'"'. $separator;
+			if ($input->getOption('last-login')) {
+				$data .= '"last login date as \'' . $input->getOption('date-format') . '\'"'. $separator;
+			}
 			$data .= '"assigned quota (5 GB)"'. $separator;
 			$data .= '"used quota (500 MB)"'. $separator;
 			$data .= 'number of files'. $separator;

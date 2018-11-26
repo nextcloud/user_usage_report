@@ -78,6 +78,7 @@ class AllUsers {
 			'used' => FileInfo::SPACE_UNKNOWN,
 			'quota' => $this->config->getAppValue('files', 'default_quota', FileInfo::SPACE_UNKNOWN),
 			'shares' => 0,
+			'login' => 0,
 		];
 
 		$this->userManager->callForAllUsers(function(IUser $user) use ($default) {
@@ -100,6 +101,9 @@ class AllUsers {
 		$this->getNumberOfActions();
 		$this->getUserQuota();
 		$this->getNumberOfShares();
+		if ($input->getOption('last-login')) {
+			$this->getUserLastLogin();
+		}
 
 		foreach ($this->reports as $userId => $report) {
 			$this->printRecord($input, $output, $userId, $report);
@@ -242,6 +246,33 @@ class AllUsers {
 		return $numResults;
 	}
 
+	protected function getUserLastLogin() {
+		$offset = 0;
+		do {
+			$numResults = $this->getUserLastLoginBatch($offset);
+			$offset += $numResults;
+		} while ($numResults === self::BATCH_SIZE);
+	}
+
+	/**
+	 * @param int $offset
+	 * @return int
+	 */
+	protected function getUserLastLoginBatch($offset) {
+		$query = $this->queries['lastLogin'];
+		$query->setFirstResult($offset);
+
+		$result = $query->execute();
+		$numResults = 0;
+		while ($row = $result->fetch()) {
+			$this->reports[$row['userid']]['login'] = $row['configvalue'];
+			$numResults++;
+		}
+		$result->closeCursor();
+
+		return $numResults;
+	}
+
 	protected function getNumberOfShares() {
 		$offset = 0;
 		do {
@@ -325,6 +356,16 @@ class AllUsers {
 			->orderBy('userid', 'ASC')
 			->setMaxResults(self::BATCH_SIZE);
 		$this->queries['getQuota'] = $query;
+
+		// Get last_login
+		$query = $this->connection->getQueryBuilder();
+		$query->select(['userid', 'configvalue'])
+			->from('preferences')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('login')))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('lastLogin')))
+			->orderBy('userid', 'ASC')
+			->setMaxResults(self::BATCH_SIZE);
+		$this->queries['lastLogin'] = $query;
 
 		// Get number of shares
 		$query = $this->connection->getQueryBuilder();
