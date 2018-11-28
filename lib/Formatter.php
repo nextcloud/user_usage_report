@@ -37,6 +37,9 @@ trait Formatter {
 
 		$data = '"'. $userId . '"'. $separator;
 		$data .= '"'. $this->timestamp . '"'. $separator;
+		if ($input->getOption('last-login')) {
+			$data .= '"'. date($input->getOption('date-format'), $report['login']) . '"'. $separator;
+		}
 		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
 		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
 		$data .= $report['files'] . $separator;
