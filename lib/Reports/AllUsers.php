@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -81,7 +82,10 @@ class AllUsers {
 			'login' => 0,
 		];
 
-		$this->userManager->callForAllUsers(function(IUser $user) use ($default) {
+		$progress = new ProgressBar($output);
+
+		$i = 0;
+		$this->userManager->callForAllUsers(function(IUser $user) use ($default, $progress, &$i) {
 			$this->reports[$user->getUID()] = $default;
 
 			$home = 'home::' . $user->getUID();
@@ -95,26 +99,38 @@ class AllUsers {
 				$home = md5($home);
 			}
 			$this->storageMap[$home] = $user->getUID();
+
+			if ($i % 200 === 0) {
+				$progress->advance();
+			}
+			$i++;
 		});
 
-		$this->getFilecacheStats();
-		$this->getNumberOfActions();
-		$this->getUserQuota();
-		$this->getNumberOfShares();
+		$progress->advance();
+
+		$this->getFilecacheStats($progress);
+		$this->getNumberOfActions($progress);
+		$this->getUserQuota($progress);
+		$this->getNumberOfShares($progress);
 		if ($input->getOption('last-login')) {
-			$this->getUserLastLogin();
+			$this->getUserLastLogin($progress);
 		}
+		$progress->advance();
+
+
+		$progress->clear();
 
 		foreach ($this->reports as $userId => $report) {
 			$this->printRecord($input, $output, $userId, $report);
 		}
 	}
 
-	protected function getNumberOfActions() {
+	protected function getNumberOfActions(ProgressBar $progress) {
 		$offset = 0;
 		do {
 			$numResults = $this->getNumberOfActionsBatch($offset);
 			$offset += $numResults;
+			$progress->advance();
 		} while ($numResults === self::BATCH_SIZE);
 	}
 
@@ -141,7 +157,7 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getFilecacheStats() {
+	protected function getFilecacheStats(ProgressBar $progress) {
 		$offset = 0;
 		do {
 			$result = $this->countFilesBatch($offset);
@@ -149,6 +165,7 @@ class AllUsers {
 			$this->mapStorageToUser($result);
 
 			$offset += $result['results'];
+			$progress->advance();
 		} while ($result['results'] === self::BATCH_SIZE);
 	}
 
@@ -216,11 +233,12 @@ class AllUsers {
 		$result->closeCursor();
 	}
 
-	protected function getUserQuota() {
+	protected function getUserQuota(ProgressBar $progress) {
 		$offset = 0;
 		do {
 			$numResults = $this->getUserQuotaBatch($offset);
 			$offset += $numResults;
+			$progress->advance();
 		} while ($numResults === self::BATCH_SIZE);
 	}
 
@@ -246,11 +264,12 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getUserLastLogin() {
+	protected function getUserLastLogin(ProgressBar $progress) {
 		$offset = 0;
 		do {
 			$numResults = $this->getUserLastLoginBatch($offset);
 			$offset += $numResults;
+			$progress->advance();
 		} while ($numResults === self::BATCH_SIZE);
 	}
 
@@ -273,11 +292,12 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getNumberOfShares() {
+	protected function getNumberOfShares(ProgressBar $progress) {
 		$offset = 0;
 		do {
 			$numResults = $this->getNumberOfSharesBatch($offset);
 			$offset += $numResults;
+			$progress->advance();
 		} while ($numResults === self::BATCH_SIZE);
 	}
 
