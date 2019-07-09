@@ -80,6 +80,7 @@ class AllUsers {
 			'quota' => $this->config->getAppValue('files', 'default_quota', FileInfo::SPACE_UNKNOWN),
 			'shares' => 0,
 			'login' => 0,
+			'display_name' => '',
 		];
 
 		$progress = new ProgressBar($output);
@@ -87,6 +88,7 @@ class AllUsers {
 		$i = 0;
 		$this->userManager->callForAllUsers(function(IUser $user) use ($default, $progress, &$i) {
 			$this->reports[$user->getUID()] = $default;
+			$this->reports[$user->getUID()]['display_name'] = $user->getDisplayName();
 
 			$home = 'home::' . $user->getUID();
 			if (strlen($home) > 64) {

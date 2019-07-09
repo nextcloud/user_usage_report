@@ -46,6 +46,9 @@ trait Formatter {
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
 		$data .= $report['downloads'];
+		if (isset($report['display_name'])) {
+		  $data .= $separator . $report['display_name'];
+		}
 		$output->writeln($data);
 	}
 
