@@ -54,7 +54,9 @@ trait Formatter {
 		$data .= $report['files'] . $separator;
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
-		$data .= $report['downloads'];
+		$data .= $report['downloads'] . $separator;
+	        $data .= '"' . $report['display_name'] . '"';
+	
 		$output->writeln($data);
 	}
 

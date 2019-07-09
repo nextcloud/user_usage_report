@@ -112,6 +112,7 @@ class Generate extends Command {
 			$data .= 'number of shares'. $separator;
 			$data .= 'number of uploads'. $separator;
 			$data .= 'number of downloads'. $separator;
+			$data .= 'display name'. $separator;
 			$output->writeln($data);
 		}
 

@@ -66,6 +66,8 @@ class SingleUser {
 			$report['login'] = $this->getUserLastLogin($userId);
 		}
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
+		$report['display_name'] = $this->getUserDisplayName($userId);
+		
 
 		$this->printRecord($input, $output, $userId, $report);
 	}
@@ -202,6 +204,22 @@ class SingleUser {
 	}
 
 	/**
+	 * @param string $userId
+	 * @return int
+	 */
+	protected function getUserDisplayName($userId) {
+		$query = $this->queries['displayName'];
+		$query->setParameter('user', $userId);
+		$result = $query->execute();
+		$data = $result->fetchColumn();
+		$result->closeCursor();
+		$json = json_decode($data, TRUE);
+		$displayName = $json['displayname']['value'];
+		return (string) $displayName;
+	}
+
+	
+	/**
 	 * @param string $action
 	 * @return string
 	 * @throws \InvalidArgumentException
@@ -280,5 +298,13 @@ class SingleUser {
 			->addOrderBy('configkey', 'ASC')
 			->setParameter('appid', 'user_usage_report');
 		$this->queries['countActions'] = $query;
+
+	        // Get User Display Name
+		$query = $this->connection->getQueryBuilder();
+		$query->select('data')
+			->from('accounts')
+		  ->where($query->expr()->eq('uid', $query->createParameter('user')));
+		$this->queries['displayName'] = $query;
+
 	}
 }
