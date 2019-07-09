@@ -46,7 +46,7 @@ trait Formatter {
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
 		$data .= $report['downloads'] . $separator;
-	        $data .= $report['display_name'];
+	        $data .= '"' . $report['display_name'] . '"';
 	
 		$output->writeln($data);
 	}
