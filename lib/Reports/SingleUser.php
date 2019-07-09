@@ -211,9 +211,10 @@ class SingleUser {
 		$query = $this->queries['displayName'];
 		$query->setParameter('user', $userId);
 		$result = $query->execute();
-		$displayName = $result->fetchColumn();
+		$data = $result->fetchColumn();
 		$result->closeCursor();
-
+		$json = json_decode($data, TRUE);
+		$displayName = $json['displayname']['value'];
 		return (string) $displayName;
 	}
 
@@ -294,5 +295,13 @@ class SingleUser {
 			->where($query->expr()->eq('user_id', $query->createParameter('user')))
 			->groupBy('action');
 		$this->queries['countActions'] = $query;
+
+	        // Get User Display Name
+		$query = $this->connection->getQueryBuilder();
+		$query->select('data')
+			->from('accounts')
+		  ->where($query->expr()->eq('uid', $query->createParameter('user')));
+		$this->queries['displayName'] = $query;
+
 	}
 }
