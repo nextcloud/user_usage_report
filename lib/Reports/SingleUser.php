@@ -66,6 +66,8 @@ class SingleUser {
 			$report['login'] = $this->getUserLastLogin($userId);
 		}
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
+		$report['display_name'] = $this->getUserDisplayName($userId);
+		
 
 		$this->printRecord($input, $output, $userId, $report);
 	}
@@ -201,6 +203,21 @@ class SingleUser {
 		return $numShares;
 	}
 
+	/**
+	 * @param string $userId
+	 * @return int
+	 */
+	protected function getUserDisplayName($userId) {
+		$query = $this->queries['displayName'];
+		$query->setParameter('user', $userId);
+		$result = $query->execute();
+		$displayName = $result->fetchColumn();
+		$result->closeCursor();
+
+		return (string) $displayName;
+	}
+
+	
 	/**
 	 * @param string $action
 	 * @return string
