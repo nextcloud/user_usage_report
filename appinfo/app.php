@@ -19,5 +19,5 @@
  *
  */
 
-$app = new \OCA\UserUsageReport\AppInfo\Application();
+$app = \OC::$server->query(\OCA\UserUsageReport\AppInfo\Application::class);
 $app->register();
