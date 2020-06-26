@@ -273,7 +273,7 @@ class SingleUser {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['action'])
 			->selectAlias($query->createFunction('COUNT(*)'),'num_actions')
-			->from('usage_report')
+			->from('usage_report_actions')
 			->where($query->expr()->eq('user_id', $query->createParameter('user')))
 			->groupBy('action');
 		$this->queries['countActions'] = $query;

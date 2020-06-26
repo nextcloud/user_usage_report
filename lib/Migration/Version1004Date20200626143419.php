@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
  *
@@ -22,40 +22,27 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserUsageReport\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
-class Version1001Date20180806133516 extends SimpleMigrationStep {
-
+class Version1004Date20200626143419 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @since 13.0.0
 	 */
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('usage_report')) {
-			$table = $schema->createTable('usage_report');
-			$table->addColumn('user_id', Type::STRING, [
-				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('action', Type::STRING, [
-				'notnull' => false,
-				'length' => 64,
-			]);
-			$table->addColumn('timestamp', Type::DATETIME, [
-				'notnull' => false,
-			]);
-			$table->addIndex(['user_id', 'action', 'timestamp'], 'usage_report_uta');
+		if ($schema->hasTable('usage_report')) {
+			$schema->dropTable('usage_report');
 		}
 		return $schema;
 	}
