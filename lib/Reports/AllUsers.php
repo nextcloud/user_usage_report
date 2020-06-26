@@ -401,7 +401,7 @@ class AllUsers {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['user_id', 'action'])
 			->selectAlias($query->createFunction('COUNT(*)'),'num_actions')
-			->from('usage_report')
+			->from('usage_report_actions')
 			->groupBy('user_id')
 			->addGroupBy('action')
 			->orderBy('user_id', 'ASC')
