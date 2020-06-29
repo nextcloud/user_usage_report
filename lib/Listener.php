@@ -73,7 +73,7 @@ class Listener {
 		$query = $this->getQuery();
 		$query->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
 			->setParameter('action', $action, IQueryBuilder::PARAM_STR)
-			->setParameter('timestamp', new \DateTime(), IQueryBuilder::PARAM_DATE);
+			->setParameter('datetime', new \DateTime(), IQueryBuilder::PARAM_DATE);
 		$query->execute();
 	}
 
@@ -86,11 +86,11 @@ class Listener {
 		}
 
 		$query = $this->connection->getQueryBuilder();
-		$query->insert('usage_report')
+		$query->insert('usage_report_actions')
 			->values([
 				'user_id' => $query->createParameter('user'),
 				'action' => $query->createParameter('action'),
-				'timestamp' => $query->createParameter('timestamp'),
+				'datetime' => $query->createParameter('datetime'),
 			]);
 		$this->query = $query;
 
