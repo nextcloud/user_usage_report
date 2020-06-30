@@ -399,13 +399,13 @@ class AllUsers {
 
 		// Get number of downloads and uploads
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['user_id', 'action'])
-			->selectAlias($query->createFunction('COUNT(*)'),'num_actions')
-			->from('usage_report_actions')
-			->groupBy('user_id')
-			->addGroupBy('action')
-			->orderBy('user_id', 'ASC')
-			->addOrderBy('action', 'ASC');
+		$query->selectAlias('userid','user_id')
+			->selectAlias('configkey','action')
+			->selectAlias('configvalue','num_actions')
+			->from('preferences')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('user_usage_report')))
+			->orderBy('userid', 'ASC')
+			->addOrderBy('configkey', 'ASC');
 		$this->queries['countActions'] = $query;
 	}
 }
