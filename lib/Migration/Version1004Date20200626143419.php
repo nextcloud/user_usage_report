@@ -38,12 +38,13 @@ class Version1004Date20200626143419 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-
-		if ($schema->hasTable('usage_report')) {
-			$schema->dropTable('usage_report');
-		}
-		return $schema;
+//		/** @var ISchemaWrapper $schema */
+//		$schema = $schemaClosure();
+//
+//		if ($schema->hasTable('usage_report')) {
+//			$schema->dropTable('usage_report');
+//		}
+//		return $schema;
+		return null;
 	}
 }

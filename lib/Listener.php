@@ -35,7 +35,10 @@ class Listener {
 	protected $connection;
 
 	/** @var IQueryBuilder */
-	protected $query;
+	protected $insert;
+
+	/** @var IQueryBuilder */
+	protected $update;
 
 	/**
 	 * @param IUserSession $userSession
@@ -70,29 +73,62 @@ class Listener {
 			return;
 		}
 
-		$query = $this->getQuery();
-		$query->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
+		$update = $this->getUpdateQuery();
+		$update
+			->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
 			->setParameter('action', $action, IQueryBuilder::PARAM_STR)
-			->setParameter('datetime', new \DateTime(), IQueryBuilder::PARAM_DATE);
-		$query->execute();
+		;
+		$updated = $update->execute();
+
+		if ($updated === 0) {
+			$insert = $this->getInsertQuery();
+			$insert
+				->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
+				->setParameter('action', $action, IQueryBuilder::PARAM_STR)
+			;
+			$insert->execute();
+		}
 	}
 
 	/**
 	 * @return IQueryBuilder
 	 */
-	protected function getQuery() {
-		if ($this->query !== null) {
-			return $this->query;
+	protected function getUpdateQuery() {
+		if ($this->update !== null) {
+			return $this->update;
 		}
 
 		$query = $this->connection->getQueryBuilder();
-		$query->insert('usage_report_actions')
+		$query->update('preferences')
+			->set('configvalue', $query->createFunction($query->getColumnName('configvalue') . ' + 1'))
+			->where($query->expr()->eq('userid', $query->createParameter('user')))
+			->andWhere($query->expr()->eq('configkey', $query->createParameter('action')))
+			->andWhere($query->expr()->eq('appid', $query->createParameter('appid')))
+			->setParameter('appid', 'user_usage_report');
+		$this->update = $query;
+
+		return $query;
+	}
+
+	/**
+	 * @return IQueryBuilder
+	 */
+	protected function getInsertQuery() {
+		if ($this->insert !== null) {
+			return $this->insert;
+		}
+
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('preferences')
 			->values([
-				'user_id' => $query->createParameter('user'),
-				'action' => $query->createParameter('action'),
-				'datetime' => $query->createParameter('datetime'),
-			]);
-		$this->query = $query;
+				'userid' => $query->createParameter('user'),
+				'appid' => $query->createParameter('appid'),
+				'configkey' => $query->createParameter('action'),
+				'configvalue' => $query->createParameter('configvalue'),
+			])
+			->setParameter('appid', 'user_usage_report')
+			->setParameter('configvalue', '1');
+		$this->insert = $query;
 
 		return $query;
 	}
