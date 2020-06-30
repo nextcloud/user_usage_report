@@ -271,11 +271,14 @@ class SingleUser {
 
 		// Get number of downloads and uploads
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['action'])
-			->selectAlias($query->createFunction('COUNT(*)'),'num_actions')
-			->from('usage_report_actions')
-			->where($query->expr()->eq('user_id', $query->createParameter('user')))
-			->groupBy('action');
+		$query->selectAlias('configkey','action')
+			->selectAlias('configvalue','num_actions')
+			->from('preferences')
+			->where($query->expr()->eq('userid', $query->createParameter('user')))
+			->andWhere($query->expr()->eq('appid', $query->createParameter('appid')))
+			->orderBy('userid', 'ASC')
+			->addOrderBy('configkey', 'ASC')
+			->setParameter('appid', 'user_usage_report');
 		$this->queries['countActions'] = $query;
 	}
 }
