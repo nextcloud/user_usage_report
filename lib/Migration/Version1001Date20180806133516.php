@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 namespace OCA\UserUsageReport\Migration;
 
-use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
@@ -39,24 +38,25 @@ class Version1001Date20180806133516 extends SimpleMigrationStep {
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-
-		if (!$schema->hasTable('usage_report')) {
-			$table = $schema->createTable('usage_report');
-			$table->addColumn('user_id', Type::STRING, [
-				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('action', Type::STRING, [
-				'notnull' => false,
-				'length' => 64,
-			]);
-			$table->addColumn('timestamp', Type::DATETIME, [
-				'notnull' => false,
-			]);
-			$table->addIndex(['user_id', 'action', 'timestamp'], 'usage_report_uta');
-		}
-		return $schema;
+//		/** @var ISchemaWrapper $schema */
+//		$schema = $schemaClosure();
+//
+//		if (!$schema->hasTable('usage_report')) {
+//			$table = $schema->createTable('usage_report');
+//			$table->addColumn('user_id', Type::STRING, [
+//				'notnull' => true,
+//				'length' => 64,
+//			]);
+//			$table->addColumn('action', Type::STRING, [
+//				'notnull' => false,
+//				'length' => 64,
+//			]);
+//			$table->addColumn('timestamp', Type::DATETIME, [
+//				'notnull' => false,
+//			]);
+//			$table->addIndex(['user_id', 'action', 'timestamp'], 'usage_report_uta');
+//		}
+//		return $schema;
+		return null;
 	}
 }
