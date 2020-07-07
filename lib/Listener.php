@@ -100,7 +100,15 @@ class Listener {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update('preferences')
-			->set('configvalue', $query->createFunction($query->getColumnName('configvalue') . ' + 1'))
+			->set('configvalue',
+				$query->expr()->castColumn(
+					$query->createFunction(
+						'(' . $query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
+						. ' + 1)'
+					)
+					, IQueryBuilder::PARAM_STR
+				)
+			)
 			->where($query->expr()->eq('userid', $query->createParameter('user')))
 			->andWhere($query->expr()->eq('configkey', $query->createParameter('action')))
 			->andWhere($query->expr()->eq('appid', $query->createParameter('appid')))
