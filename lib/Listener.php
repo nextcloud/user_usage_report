@@ -21,6 +21,7 @@
 
 namespace OCA\UserUsageReport;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -86,7 +87,12 @@ class Listener {
 				->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
 				->setParameter('action', $action, IQueryBuilder::PARAM_STR)
 			;
-			$insert->execute();
+
+			try {
+				$insert->execute();
+			} catch (UniqueConstraintViolationException $e) {
+				// Ignore temporary issues when two entries are generated in parallel
+			}
 		}
 	}
 
