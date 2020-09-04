@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.4.2 – 2020-09-04
+### Changed
+- Nextcloud 20 support
+
 ## 1.3.3 – 2020-07-07
 ### Fixed
 - Fix increment query for Postgres
