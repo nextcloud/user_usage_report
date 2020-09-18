@@ -6,7 +6,7 @@
 	<summary>User usage report</summary>
 	<description><![CDATA[User usage report]]></description>
 
-	<version>1.4.2</version>
+	<version>1.5.0</version>
 	<licence>agpl</licence>
 	<author>Joas Schilling</author>
 
@@ -23,7 +23,7 @@
 	<repository>https://github.com/nextcloud/user_usage_report.git</repository>
 
 	<dependencies>
-		<nextcloud min-version="20" max-version="20" />
+		<nextcloud min-version="21" max-version="21" />
 	</dependencies>
 
 	<commands>
