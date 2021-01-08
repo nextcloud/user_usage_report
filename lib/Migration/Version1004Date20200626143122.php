@@ -54,20 +54,20 @@ class Version1004Date20200626143122 extends SimpleMigrationStep {
 //
 //		if (!$schema->hasTable('usage_report_actions')) {
 //			$table = $schema->createTable('usage_report_actions');
-//			$table->addColumn('id', Type::BIGINT, [
+//			$table->addColumn('id', Types::BIGINT, [
 //				'autoincrement' => true,
 //				'notnull' => true,
 //				'length' => 20,
 //			]);
-//			$table->addColumn('user_id', Type::STRING, [
+//			$table->addColumn('user_id', Types::STRING, [
 //				'notnull' => true,
 //				'length' => 64,
 //			]);
-//			$table->addColumn('action', Type::STRING, [
+//			$table->addColumn('action', Types::STRING, [
 //				'notnull' => false,
 //				'length' => 64,
 //			]);
-//			$table->addColumn('datetime', Type::DATETIME, [
+//			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
 //				'notnull' => false,
 //			]);
 //			$table->addIndex(['user_id', 'action', 'datetime'], 'usage_report_uad');
