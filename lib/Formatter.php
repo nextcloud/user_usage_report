@@ -40,6 +40,15 @@ trait Formatter {
 		if ($input->getOption('last-login')) {
 			$data .= '"'. date($input->getOption('date-format'), $report['login']) . '"'. $separator;
 		}
+
+		// ensure all fields we trying to print are set
+		$fields = ['quota', 'used', 'files', 'shares', 'uploads', 'downloads'];
+		foreach ($fields as $field) {
+			if (!isset($report[$field])) {
+				$report[$field] = '';
+			}
+		}
+
 		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
 		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
 		$data .= $report['files'] . $separator;
