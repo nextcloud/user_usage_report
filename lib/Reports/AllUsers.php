@@ -86,9 +86,11 @@ class AllUsers {
 		$progress = new ProgressBar($output);
 
 		$i = 0;
-		$this->userManager->callForAllUsers(function(IUser $user) use ($default, $progress, &$i) {
+		$this->userManager->callForAllUsers(function(IUser $user) use ($default, $input, $progress, &$i) {
 			$this->reports[$user->getUID()] = $default;
-			$this->reports[$user->getUID()]['display_name'] = $user->getDisplayName();
+			if ($input->getOption('display-name')) {
+				$this->reports[$user->getUID()]['display_name'] = $user->getDisplayName();
+			}
 
 			$home = 'home::' . $user->getUID();
 			if (strlen($home) > 64) {
