@@ -89,6 +89,12 @@ class Generate extends Command {
 				InputOption::VALUE_NONE,
 				'Should the last login date be included in the report'
 			)
+			->addOption(
+				'display-name',
+				'',
+				InputOption::VALUE_NONE,
+				'Should the display name be included in the report'
+			)
 		;
 	}
 
@@ -102,17 +108,19 @@ class Generate extends Command {
 			$separator = $input->getOption('field-separator');
 
 			$data = '"user-id"'. $separator;
+			if ($input->getOption('display-name')) {
+				$data .= '"display name"'. $separator;
+			}
 			$data .= '"date as \'' . $input->getOption('date-format') . '\'"'. $separator;
 			if ($input->getOption('last-login')) {
 				$data .= '"last login date as \'' . $input->getOption('date-format') . '\'"'. $separator;
 			}
-			$data .= '"assigned quota (5 GB)"'. $separator;
-			$data .= '"used quota (500 MB)"'. $separator;
-			$data .= 'number of files'. $separator;
-			$data .= 'number of shares'. $separator;
-			$data .= 'number of uploads'. $separator;
-			$data .= 'number of downloads'. $separator;
-			$data .= 'display name'. $separator;
+			$data .= '"assigned quota (5 GB)"' . $separator;
+			$data .= '"used quota (500 MB)"' . $separator;
+			$data .= 'number of files' . $separator;
+			$data .= 'number of shares' . $separator;
+			$data .= 'number of uploads' . $separator;
+			$data .= 'number of downloads';
 			$output->writeln($data);
 		}
 

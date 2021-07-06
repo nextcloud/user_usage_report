@@ -36,6 +36,9 @@ trait Formatter {
 		}
 
 		$data = '"'. $userId . '"'. $separator;
+		if ($input->getOption('display-name')) {
+			$data .= '"' . $report['display_name'] . '"' . $separator;
+		}
 		$data .= '"'. $this->timestamp . '"'. $separator;
 		if ($input->getOption('last-login')) {
 			$data .= '"'. date($input->getOption('date-format'), $report['login']) . '"'. $separator;
@@ -54,9 +57,8 @@ trait Formatter {
 		$data .= $report['files'] . $separator;
 		$data .= $report['shares'] . $separator;
 		$data .= $report['uploads'] . $separator;
-		$data .= $report['downloads'] . $separator;
-	        $data .= '"' . $report['display_name'] . '"';
-	
+		$data .= $report['downloads'];
+
 		$output->writeln($data);
 	}
 
