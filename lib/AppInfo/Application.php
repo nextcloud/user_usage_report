@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -21,35 +23,32 @@
 
 namespace OCA\UserUsageReport\AppInfo;
 
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IPreview;
 use OCP\Util;
 use OCA\UserUsageReport\Listener;
 use OCP\AppFramework\App;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 
 	public function __construct() {
 		parent::__construct('user_usage_report');
 	}
 
-	public function register() {
-		$this->registerFilesActivity();
+	public function register(IRegistrationContext $context): void {
 	}
 
-	/**
-	 * Register the hooks for filesystem operations
-	 *
-	 * @throws \OCP\AppFramework\QueryException
-	 */
-	public function registerFilesActivity() {
+	public function boot(IBootContext $context): void {
 		/** @var Listener $listener */
-		$listener = $this->getContainer()->query(Listener::class);
+		$listener = $context->getAppContainer()->get(Listener::class);
 
 		Util::connectHook('OC_Filesystem', 'post_create', $listener, 'fileCreated');
 		Util::connectHook('OC_Filesystem', 'read', $listener, 'fileRead');
 
-		$this->getContainer()->getServer()->getEventDispatcher()->addListener(IPreview::EVENT, function (GenericEvent $event) use ($listener) {
+		$context->getServerContainer()->getEventDispatcher()->addListener(IPreview::EVENT, function (GenericEvent $event) use ($listener) {
 			if ($event->getArgument('width') > 64 || $event->getArgument('height') > 64) {
 				$listener->fileRead();
 			}
