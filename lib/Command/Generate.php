@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -56,7 +58,7 @@ class Generate extends Command {
 		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('usage-report:generate')
 			->setDescription(
@@ -103,7 +105,7 @@ class Generate extends Command {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 			$separator = $input->getOption('field-separator');
 

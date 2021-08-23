@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -53,7 +55,7 @@ class SingleUser {
 	 * @param OutputInterface $output
 	 * @param string $userId
 	 */
-	public function printReport(InputInterface $input, OutputInterface $output, $userId) {
+	public function printReport(InputInterface $input, OutputInterface $output, string $userId): void {
 		$this->createQueries();
 
 		$report = array_merge(
@@ -67,7 +69,6 @@ class SingleUser {
 		}
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
 		$report['display_name'] = $this->getUserDisplayName($userId);
-		
 
 		$this->printRecord($input, $output, $userId, $report);
 	}
@@ -76,10 +77,10 @@ class SingleUser {
 	 * @param string $userId
 	 * @return array
 	 */
-	protected function getNumberOfActionsForUser($userId) {
+	protected function getNumberOfActionsForUser(string $userId): array {
 		$query = $this->queries['countActions'];
 		$query->setParameter('user', $userId);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$numActions = [
 			'uploads' => 0,
@@ -103,7 +104,7 @@ class SingleUser {
 	 * @param string $userId
 	 * @return array
 	 */
-	protected function getFilecacheStatsForUser($userId) {
+	protected function getFilecacheStatsForUser(string $userId): array {
 		$query = $this->queries['getStorageId'];
 
 		$home = 'home::' . $userId;
@@ -112,8 +113,8 @@ class SingleUser {
 		}
 
 		$query->setParameter('storage_identifier', $home);
-		$result = $query->execute();
-		$storageId = (int) $result->fetchColumn();
+		$result = $query->executeQuery();
+		$storageId = (int) $result->fetchOne();
 		$result->closeCursor();
 
 		if ($storageId === 0) {
@@ -123,21 +124,21 @@ class SingleUser {
 			}
 
 			$query->setParameter('storage_identifier', $home);
-			$result = $query->execute();
-			$storageId = (int) $result->fetchColumn();
+			$result = $query->executeQuery();
+			$storageId = (int) $result->fetchOne();
 			$result->closeCursor();
 		}
 
 		$query = $this->queries['countFiles'];
 		$query->setParameter('storage_identifier', $storageId);
-		$result = $query->execute();
-		$numFiles = (int) $result->fetchColumn();
+		$result = $query->executeQuery();
+		$numFiles = (int) $result->fetchOne();
 		$result->closeCursor();
 
 		$query = $this->queries['getUsedSpace'];
 		$query->setParameter('storage_identifier', $storageId);
-		$result = $query->execute();
-		$usedSpace = (int) $result->fetchColumn();
+		$result = $query->executeQuery();
+		$usedSpace = (int) $result->fetchOne();
 		$result->closeCursor();
 
 		return [
@@ -150,11 +151,11 @@ class SingleUser {
 	 * @param string $userId
 	 * @return int
 	 */
-	protected function getUserLastLogin($userId) {
+	protected function getUserLastLogin(string $userId): int {
 		$query = $this->queries['lastLogin'];
 		$query->setParameter('user', $userId);
-		$result = $query->execute();
-		$lastLogin = $result->fetchColumn();
+		$result = $query->executeQuery();
+		$lastLogin = $result->fetchOne();
 		$result->closeCursor();
 
 		return (int) $lastLogin;
@@ -162,13 +163,13 @@ class SingleUser {
 
 	/**
 	 * @param string $userId
-	 * @return int
+	 * @return int|string
 	 */
-	protected function getUserQuota($userId) {
+	protected function getUserQuota(string $userId) {
 		$query = $this->queries['getQuota'];
 		$query->setParameter('user', $userId);
-		$result = $query->execute();
-		$quota = $result->fetchColumn();
+		$result = $query->executeQuery();
+		$quota = $result->fetchOne();
 		$result->closeCursor();
 
 		if (is_numeric($quota)) {
@@ -193,11 +194,11 @@ class SingleUser {
 	 * @param string $userId
 	 * @return int
 	 */
-	protected function getNumberOfSharesForUser($userId) {
+	protected function getNumberOfSharesForUser(string $userId): int {
 		$query = $this->queries['countShares'];
 		$query->setParameter('initiator', $userId);
-		$result = $query->execute();
-		$numShares = (int) $result->fetchColumn();
+		$result = $query->executeQuery();
+		$numShares = (int) $result->fetchOne();
 		$result->closeCursor();
 
 		return $numShares;
@@ -205,26 +206,26 @@ class SingleUser {
 
 	/**
 	 * @param string $userId
-	 * @return int
+	 * @return string
 	 */
-	protected function getUserDisplayName($userId) {
+	protected function getUserDisplayName(string $userId): string {
 		$query = $this->queries['displayName'];
 		$query->setParameter('user', $userId);
-		$result = $query->execute();
-		$data = $result->fetchColumn();
+		$result = $query->executeQuery();
+		$data = $result->fetchOne();
 		$result->closeCursor();
-		$json = json_decode($data, TRUE);
+		$json = json_decode($data, true);
 		$displayName = $json['displayname']['value'];
 		return (string) $displayName;
 	}
 
-	
+
 	/**
 	 * @param string $action
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	protected function actionToMetric($action) {
+	protected function actionToMetric(string $action): string {
 		switch ($action) {
 			case 'created':
 				return 'uploads';
@@ -235,7 +236,7 @@ class SingleUser {
 		}
 	}
 
-	protected function createQueries() {
+	protected function createQueries(): void {
 		if (!empty($this->queries)) {
 			return;
 		}

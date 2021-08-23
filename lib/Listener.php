@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -22,6 +24,7 @@
 namespace OCA\UserUsageReport;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -41,10 +44,6 @@ class Listener {
 	/** @var IQueryBuilder */
 	protected $update;
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param IDBConnection $connection
-	 */
 	public function __construct(IUserSession $userSession, IDBConnection $connection) {
 		$this->userSession = $userSession;
 		$this->connection = $connection;
@@ -53,21 +52,18 @@ class Listener {
 	/**
 	 * Log file creation
 	 */
-	public function fileCreated() {
+	public function fileCreated(): void {
 		$this->storeAction('created');
 	}
 
 	/**
 	 * Log reading of file
 	 */
-	public function fileRead() {
+	public function fileRead(): void {
 		$this->storeAction('read');
 	}
 
-	/**
-	 * @param string $action
-	 */
-	protected function storeAction($action) {
+	protected function storeAction(string $action): void {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
 			// Guest user
@@ -79,7 +75,7 @@ class Listener {
 			->setParameter('user', $user->getUID(), IQueryBuilder::PARAM_STR)
 			->setParameter('action', $action, IQueryBuilder::PARAM_STR)
 		;
-		$updated = $update->execute();
+		$updated = $update->executeStatement();
 
 		if ($updated === 0) {
 			$insert = $this->getInsertQuery();
@@ -89,17 +85,17 @@ class Listener {
 			;
 
 			try {
-				$insert->execute();
-			} catch (UniqueConstraintViolationException $e) {
-				// Ignore temporary issues when two entries are generated in parallel
+				$insert->executeStatement();
+			} catch (Exception $e) {
+				// Ignore temporary issues only when two entries are generated in parallel
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
 			}
 		}
 	}
 
-	/**
-	 * @return IQueryBuilder
-	 */
-	protected function getUpdateQuery() {
+	protected function getUpdateQuery(): IQueryBuilder {
 		if ($this->update !== null) {
 			return $this->update;
 		}
@@ -124,10 +120,7 @@ class Listener {
 		return $query;
 	}
 
-	/**
-	 * @return IQueryBuilder
-	 */
-	protected function getInsertQuery() {
+	protected function getInsertQuery(): IQueryBuilder {
 		if ($this->insert !== null) {
 			return $this->insert;
 		}

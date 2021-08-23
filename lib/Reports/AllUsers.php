@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -34,7 +36,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AllUsers {
-	const BATCH_SIZE = 1000;
+	public const BATCH_SIZE = 1000;
 
 	use Formatter;
 
@@ -69,7 +71,7 @@ class AllUsers {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	public function printReport(InputInterface $input, OutputInterface $output) {
+	public function printReport(InputInterface $input, OutputInterface $output): void {
 		$this->createQueries();
 
 		$default = [
@@ -129,7 +131,7 @@ class AllUsers {
 		}
 	}
 
-	protected function getNumberOfActions(ProgressBar $progress) {
+	protected function getNumberOfActions(ProgressBar $progress): void {
 		$offset = 0;
 		do {
 			$numResults = $this->getNumberOfActionsBatch($offset);
@@ -142,11 +144,11 @@ class AllUsers {
 	 * @param int $offset
 	 * @return int
 	 */
-	protected function getNumberOfActionsBatch($offset) {
+	protected function getNumberOfActionsBatch(int $offset): int {
 		$query = $this->queries['countActions'];
 		$query->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			try {
@@ -161,7 +163,7 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getFilecacheStats(ProgressBar $progress) {
+	protected function getFilecacheStats(ProgressBar $progress): void {
 		$offset = 0;
 		do {
 			$result = $this->countFilesBatch($offset);
@@ -177,11 +179,11 @@ class AllUsers {
 	 * @param int $offset
 	 * @return array
 	 */
-	protected function countFilesBatch($offset) {
+	protected function countFilesBatch(int $offset): array {
 		$query = $this->queries['countFiles'];
 		$query->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$numResults = $first = $last = 0;
 
 		while ($row = $result->fetch()) {
@@ -203,24 +205,24 @@ class AllUsers {
 	/**
 	 * @param array $limits
 	 */
-	protected function getRootSizeBatch(array $limits) {
+	protected function getRootSizeBatch(array $limits): void {
 		$query = $this->queries['getUsedSpace'];
 		$query->setParameter('bottom', $limits['first'])
 			->setParameter('top', $limits['last']);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$this->storages[(int) $row['storage']]['used'] = (int) $row['size'];
 		}
 		$result->closeCursor();
 	}
 
-	protected function mapStorageToUser(array $limits) {
+	protected function mapStorageToUser(array $limits): void {
 		$query = $this->queries['getStorage'];
 		$query->setParameter('bottom', $limits['first'])
 			->setParameter('top', $limits['last']);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$storage = (int) $row['numeric_id'];
 
@@ -237,7 +239,7 @@ class AllUsers {
 		$result->closeCursor();
 	}
 
-	protected function getUserQuota(ProgressBar $progress) {
+	protected function getUserQuota(ProgressBar $progress): void {
 		$offset = 0;
 		do {
 			$numResults = $this->getUserQuotaBatch($offset);
@@ -250,11 +252,11 @@ class AllUsers {
 	 * @param int $offset
 	 * @return int
 	 */
-	protected function getUserQuotaBatch($offset) {
+	protected function getUserQuotaBatch(int $offset): int {
 		$query = $this->queries['getQuota'];
 		$query->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			if ($row['configvalue'] !== 'default') {
@@ -268,7 +270,7 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getUserLastLogin(ProgressBar $progress) {
+	protected function getUserLastLogin(ProgressBar $progress): void {
 		$offset = 0;
 		do {
 			$numResults = $this->getUserLastLoginBatch($offset);
@@ -281,11 +283,11 @@ class AllUsers {
 	 * @param int $offset
 	 * @return int
 	 */
-	protected function getUserLastLoginBatch($offset) {
+	protected function getUserLastLoginBatch(int $offset): int {
 		$query = $this->queries['lastLogin'];
 		$query->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			$this->reports[$row['userid']]['login'] = $row['configvalue'];
@@ -296,7 +298,7 @@ class AllUsers {
 		return $numResults;
 	}
 
-	protected function getNumberOfShares(ProgressBar $progress) {
+	protected function getNumberOfShares(ProgressBar $progress): void {
 		$offset = 0;
 		do {
 			$numResults = $this->getNumberOfSharesBatch($offset);
@@ -309,11 +311,11 @@ class AllUsers {
 	 * @param int $offset
 	 * @return int
 	 */
-	protected function getNumberOfSharesBatch($offset) {
+	protected function getNumberOfSharesBatch(int $offset): int {
 		$query = $this->queries['countShares'];
 		$query->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			$this->reports[$row['uid_initiator']]['shares'] = (int) $row['num_shares'];
@@ -329,7 +331,7 @@ class AllUsers {
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	protected function actionToMetric($action) {
+	protected function actionToMetric(string $action): string {
 		switch ($action) {
 			case 'created':
 				return 'uploads';
@@ -340,7 +342,7 @@ class AllUsers {
 		}
 	}
 
-	protected function createQueries() {
+	protected function createQueries(): void {
 		if (!empty($this->queries)) {
 			return;
 		}

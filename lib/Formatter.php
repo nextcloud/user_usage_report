@@ -29,7 +29,7 @@ trait Formatter {
 
 	protected $timestamp;
 
-	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report) {
+	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report): void {
 		$separator = $input->getOption('field-separator');
 		if ($this->timestamp === null) {
 			$this->timestamp = date($input->getOption('date-format'));
