@@ -62,7 +62,7 @@ class Generate extends Command {
 		$this
 			->setName('usage-report:generate')
 			->setDescription(
-				'Prints a CVS entry with some usage information of the user:' . "\n"
+				'Prints a CSV entry with some usage information of the user:' . "\n"
 				. 'userId,date,assignedQuota,usedQuota,numFiles,numShares,numUploads,numDownloads' . "\n"
 				. '"admin","2017-09-18T09:00:01+00:00",5368709120,786432000,1024,23,1400,5678'
 			)
