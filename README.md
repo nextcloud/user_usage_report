@@ -2,14 +2,14 @@
 
 To generate the report for a user, run the following command:
 
-```
+```sh
 $ sudo -u www-data ./occ usage-report:generate admin
 "admin","2017-09-18T09:00:01+00:00",5368709120,786432000,12,1,1,2
 ```
 
 Leaving out the user argument will generate a report for all users on the system:
 
-```
+```sh
 $ sudo -u www-data ./occ usage-report:generate --display-name
 "admin","Nextcloud Admin","2017-09-18T09:00:01+00:00",5368709120,786432000,12,1,1,2
 "test1","Test User 1","2017-09-18T09:00:01+00:00",-2,954368,6,0,2,10
@@ -30,4 +30,12 @@ The CSV data is the following:
 * Number of shares created
 * Number of files created (new files only)
 * Number of files read (download/view)
+
+To include the header of the fields in the CSV use the `--verbose` option:
+
+```sh
+$ sudo -u www-data ./occ usage-report:generate --verbose admin
+"user-id","date as 'c'","assigned quota (5 GB)","used quota (500 MB)",number of files,number of shares,number of uploads,number of downloads
+"admin","2017-09-18T09:00:01+00:00",5368709120,786432000,12,1,1,2
+```
 
