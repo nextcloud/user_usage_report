@@ -33,7 +33,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version1004Date20200630071803 extends SimpleMigrationStep {
-
 	public const MIGRATION_SIZE = 2000;
 
 	/** @var IDBConnection */
@@ -71,7 +70,7 @@ class Version1004Date20200630071803 extends SimpleMigrationStep {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['user_id', 'action'])
-			->selectAlias($query->createFunction('COUNT(*)'),'num_actions')
+			->selectAlias($query->createFunction('COUNT(*)'), 'num_actions')
 			->from($sourceTable)
 			->groupBy('user_id')
 			->addGroupBy('action')
