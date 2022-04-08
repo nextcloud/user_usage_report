@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\UserUsageReport;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -107,8 +106,7 @@ class Listener {
 					$query->createFunction(
 						'(' . $query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
 						. ' + 1)'
-					)
-					, IQueryBuilder::PARAM_STR
+					), IQueryBuilder::PARAM_STR
 				)
 			)
 			->where($query->expr()->eq('userid', $query->createParameter('user')))

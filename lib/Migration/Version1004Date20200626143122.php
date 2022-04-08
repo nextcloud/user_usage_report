@@ -32,7 +32,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version1004Date20200626143122 extends SimpleMigrationStep {
-
 	public const MIGRATION_SIZE = 500;
 
 	/** @var IDBConnection */

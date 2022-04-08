@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\UserUsageReport\Reports;
 
-
 use OCA\UserUsageReport\Formatter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
@@ -33,7 +32,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SingleUser {
-
 	use Formatter;
 
 	/** @var IDBConnection */
@@ -250,7 +248,7 @@ class SingleUser {
 
 		// Get number of files
 		$query = $this->connection->getQueryBuilder();
-		$query->selectAlias($query->createFunction('COUNT(*)'),'num_files')
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_files')
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createParameter('storage_identifier')));
 		$this->queries['countFiles'] = $query;
@@ -283,15 +281,15 @@ class SingleUser {
 
 		// Get number of shares
 		$query = $this->connection->getQueryBuilder();
-		$query->selectAlias($query->createFunction('COUNT(*)'),'num_shares')
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_shares')
 			->from('share')
 			->where($query->expr()->eq('uid_initiator', $query->createParameter('initiator')));
 		$this->queries['countShares'] = $query;
 
 		// Get number of downloads and uploads
 		$query = $this->connection->getQueryBuilder();
-		$query->selectAlias('configkey','action')
-			->selectAlias('configvalue','num_actions')
+		$query->selectAlias('configkey', 'action')
+			->selectAlias('configvalue', 'num_actions')
 			->from('preferences')
 			->where($query->expr()->eq('userid', $query->createParameter('user')))
 			->andWhere($query->expr()->eq('appid', $query->createParameter('appid')))
@@ -300,12 +298,11 @@ class SingleUser {
 			->setParameter('appid', 'user_usage_report');
 		$this->queries['countActions'] = $query;
 
-	        // Get User Display Name
+		// Get User Display Name
 		$query = $this->connection->getQueryBuilder();
 		$query->select('data')
 			->from('accounts')
 		  ->where($query->expr()->eq('uid', $query->createParameter('user')));
 		$this->queries['displayName'] = $query;
-
 	}
 }

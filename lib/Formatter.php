@@ -26,7 +26,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 trait Formatter {
-
 	protected $timestamp;
 
 	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report): void {
@@ -90,5 +89,4 @@ trait Formatter {
 		$bytes = round($bytes / 1024, 2);
 		return "$bytes PB";
 	}
-
 }

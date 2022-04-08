@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\UserUsageReport\Reports;
 
-
 use OCA\UserUsageReport\Formatter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
@@ -88,7 +87,7 @@ class AllUsers {
 		$progress = new ProgressBar($output);
 
 		$i = 0;
-		$this->userManager->callForAllUsers(function(IUser $user) use ($default, $input, $progress, &$i) {
+		$this->userManager->callForAllUsers(function (IUser $user) use ($default, $input, $progress, &$i) {
 			$this->reports[$user->getUID()] = $default;
 			if ($input->getOption('display-name')) {
 				$this->reports[$user->getUID()]['display_name'] = $user->getDisplayName();
@@ -358,7 +357,7 @@ class AllUsers {
 		// Get number of files
 		$query = $this->connection->getQueryBuilder();
 		$query->select('storage')
-			->selectAlias($query->createFunction('COUNT(*)'),'num_files')
+			->selectAlias($query->createFunction('COUNT(*)'), 'num_files')
 			->from('filecache')
 			->groupBy('storage')
 			->orderBy('storage', 'ASC');
@@ -396,7 +395,7 @@ class AllUsers {
 		// Get number of shares
 		$query = $this->connection->getQueryBuilder();
 		$query->select('uid_initiator')
-			->selectAlias($query->createFunction('COUNT(*)'),'num_shares')
+			->selectAlias($query->createFunction('COUNT(*)'), 'num_shares')
 			->from('share')
 			->groupBy('uid_initiator')
 			->orderBy('uid_initiator', 'ASC')
@@ -405,9 +404,9 @@ class AllUsers {
 
 		// Get number of downloads and uploads
 		$query = $this->connection->getQueryBuilder();
-		$query->selectAlias('userid','user_id')
-			->selectAlias('configkey','action')
-			->selectAlias('configvalue','num_actions')
+		$query->selectAlias('userid', 'user_id')
+			->selectAlias('configkey', 'action')
+			->selectAlias('configvalue', 'num_actions')
 			->from('preferences')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('user_usage_report')))
 			->orderBy('userid', 'ASC')
