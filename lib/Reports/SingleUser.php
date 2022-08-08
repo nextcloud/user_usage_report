@@ -185,7 +185,7 @@ class SingleUser {
 			}
 		}
 
-		return $this->config->getAppValue('files', 'default_quota', FileInfo::SPACE_UNKNOWN);
+		return $this->config->getAppValue('files', 'default_quota', (string) FileInfo::SPACE_UNKNOWN);
 	}
 
 	/**
