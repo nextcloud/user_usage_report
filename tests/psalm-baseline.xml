@@ -1,16 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
-  <file src="lib/Reports/AllUsers.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>FileInfo::SPACE_UNKNOWN</code>
-    </InvalidScalarArgument>
-    <UndefinedClass occurrences="1">
-      <code>\OC_Helper</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Reports/SingleUser.php">
-    <UndefinedClass occurrences="1">
-      <code>\OC_Helper</code>
-    </UndefinedClass>
-  </file>
-</files>
+<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac"/>

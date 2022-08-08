@@ -78,7 +78,7 @@ class AllUsers {
 			'downloads' => 0,
 			'files' => 0,
 			'used' => FileInfo::SPACE_UNKNOWN,
-			'quota' => $this->config->getAppValue('files', 'default_quota', FileInfo::SPACE_UNKNOWN),
+			'quota' => $this->config->getAppValue('files', 'default_quota', (string) FileInfo::SPACE_UNKNOWN),
 			'shares' => 0,
 			'login' => 0,
 			'display_name' => '',

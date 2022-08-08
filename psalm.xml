@@ -22,6 +22,7 @@
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OC" />
+				<referencedClass name="OC_Helper" />
 				<referencedClass name="Doctrine\DBAL\Types\Types" />
 			</errorLevel>
 		</UndefinedClass>
