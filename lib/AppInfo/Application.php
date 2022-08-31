@@ -48,7 +48,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook('OC_Filesystem', 'read', $listener, 'fileRead');
 
 		$context->getServerContainer()->getEventDispatcher()->addListener(IPreview::EVENT, function (GenericEvent $event) use ($listener) {
-			if ($event->getArgument('width') > 64 || $event->getArgument('height') > 64) {
+			if ($event->getArgument('width') > 256 || $event->getArgument('height') > 256) {
 				$listener->fileRead();
 			}
 		});
