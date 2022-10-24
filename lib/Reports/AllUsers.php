@@ -69,8 +69,9 @@ class AllUsers {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @param OutputInterface $streamOutput
 	 */
-	public function printReport(InputInterface $input, OutputInterface $output): void {
+	public function printReport(InputInterface $input, OutputInterface $output, OutputInterface $streamOutput): void {
 		$this->createQueries();
 
 		$default = [
@@ -126,7 +127,7 @@ class AllUsers {
 		$progress->clear();
 
 		foreach ($this->reports as $userId => $report) {
-			$this->printRecord($input, $output, $userId, $report);
+			$this->printRecord($input, $streamOutput, $userId, $report);
 		}
 	}
 

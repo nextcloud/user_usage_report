@@ -33,6 +33,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\StreamOutput;
 
 class Generate extends Command {
 
@@ -104,6 +105,12 @@ class Generate extends Command {
 				'Output format (csv or json)',
 				'csv'
 			)
+			->addOption(
+				'output-file',
+				'O',
+				InputOption::VALUE_REQUIRED,
+				'Output file for stdout'
+			)
 		;
 	}
 
@@ -113,6 +120,15 @@ class Generate extends Command {
 	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$outputFile = $input->getOption('output-file');
+
+		if ($outputFile) {
+			$stream = fopen($outputFile, 'w');
+			$streamOutput = new StreamOutput($stream, $output->getVerbosity(), null, $output->getFormatter());
+		} else {
+			$streamOutput = $output;
+		}
+
 		$userId = $input->getArgument('user-id');
 		if ($userId) {
 			if (!$this->userManager->userExists($userId)) {
@@ -151,16 +167,16 @@ class Generate extends Command {
 			$data .= 'number of downloads';
 
 			if ($input->getOption('output') === 'csv') {
-				$output->writeln($data);
+				$streamOutput->writeln($data);
 			} else {
-				$output->writeln(json_encode($header));
+				$streamOutput->writeln(json_encode($header));
 			}
 		}
 
 		if ($input->getArgument('user-id')) {
-			$this->single->printReport($input, $output, $userId);
+			$this->single->printReport($input, $streamOutput, $userId);
 		} else {
-			$this->all->printReport($input, $output);
+			$this->all->printReport($input, $output, $streamOutput);
 		}
 
 		return 0;
