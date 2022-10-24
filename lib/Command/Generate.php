@@ -75,7 +75,7 @@ class Generate extends Command {
 				'field-separator',
 				'',
 				InputOption::VALUE_REQUIRED,
-				'Separator for the fields in the list',
+				'Separator for the fields in the list (Only used when output format is CSV)',
 				','
 			)
 			->addOption(
@@ -97,6 +97,13 @@ class Generate extends Command {
 				InputOption::VALUE_NONE,
 				'Should the display name be included in the report'
 			)
+			->addOption(
+				'output',
+				'',
+				InputOption::VALUE_REQUIRED,
+				'Output format (csv or json)',
+				'csv'
+			)
 		;
 	}
 
@@ -117,21 +124,37 @@ class Generate extends Command {
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 			$separator = $input->getOption('field-separator');
 
+			$header = [];
+			$header['user_id'] = '';
 			$data = '"user-id"'. $separator;
 			if ($input->getOption('display-name')) {
+				$header['display_name'] = '';
 				$data .= '"display name"'. $separator;
 			}
+			$header['date'] = '';
 			$data .= '"date as \'' . $input->getOption('date-format') . '\'"'. $separator;
 			if ($input->getOption('last-login')) {
+				$header['login'] = '';
 				$data .= '"last login date as \'' . $input->getOption('date-format') . '\'"'. $separator;
 			}
+			$header['quota'] = '';
 			$data .= '"assigned quota (5 GB)"' . $separator;
+			$header['used'] = '';
 			$data .= '"used quota (500 MB)"' . $separator;
+			$header['files'] = 0;
 			$data .= 'number of files' . $separator;
+			$header['shares'] = 0;
 			$data .= 'number of shares' . $separator;
+			$header['uploads'] = 0;
 			$data .= 'number of uploads' . $separator;
+			$header['downloads'] = 0;
 			$data .= 'number of downloads';
-			$output->writeln($data);
+
+			if ($input->getOption('output') === 'csv') {
+				$output->writeln($data);
+			} else {
+				$output->writeln(json_encode($header));
+			}
 		}
 
 		if ($input->getArgument('user-id')) {
