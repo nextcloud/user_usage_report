@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.9.0 – 2022-10-24
+### Added
+- Added an option to pipe the output to a file
+- Added an option to save the output as JSON
+
+### Changed
+- Require Nextcloud 25
+
+### Fixed
+- Proper error handling when a user does not exist
+
 ## 1.8.0 – 2022-04-11
 ### Changed
 - Nextcloud 24 support
