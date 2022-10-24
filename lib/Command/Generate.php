@@ -106,6 +106,14 @@ class Generate extends Command {
 	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$userId = $input->getArgument('user-id');
+		if ($userId) {
+			if (!$this->userManager->userExists($userId)) {
+				$output->writeln('<error>User with ID "' . $userId . '" could not be found.</error>');
+				return 1;
+			}
+		}
+
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 			$separator = $input->getOption('field-separator');
 
@@ -127,7 +135,7 @@ class Generate extends Command {
 		}
 
 		if ($input->getArgument('user-id')) {
-			$this->single->printReport($input, $output, $input->getArgument('user-id'));
+			$this->single->printReport($input, $output, $userId);
 		} else {
 			$this->all->printReport($input, $output);
 		}
