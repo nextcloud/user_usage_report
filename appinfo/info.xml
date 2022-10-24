@@ -20,7 +20,7 @@ $ sudo -u www-data ./occ usage-report:generate --verbose admin
 ```
 ]]></description>
 
-	<version>1.10.0</version>
+	<version>1.9.0</version>
 	<licence>agpl</licence>
 	<author>Joas Schilling</author>
 
@@ -39,7 +39,7 @@ $ sudo -u www-data ./occ usage-report:generate --verbose admin
 	<screenshot>https://raw.githubusercontent.com/nextcloud/user_usage_report/master/docs/screenshot.png</screenshot>
 
 	<dependencies>
-		<nextcloud min-version="26" max-version="26" />
+		<nextcloud min-version="25" max-version="25" />
 	</dependencies>
 
 	<commands>

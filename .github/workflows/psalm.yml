@@ -5,23 +5,22 @@
 
 name: Static analysis
 
-on:
-  pull_request:
-  push:
-    branches:
-      - master
-      - main
-      - stable*
+on: pull_request
 
-concurrency: 
-  group: psalm-${{ github.head_ref || github.run_id }}
+concurrency:
+  group: lint-psalm-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
   static-analysis:
     runs-on: ubuntu-latest
+    strategy:
+      # do not stop on another job's failure
+      fail-fast: false
+      matrix:
+        ocp-version: [ 'dev-master', 'dev-stable25' ]
 
-    name: Nextcloud
+    name: Nextcloud ${{ matrix.ocp-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -30,10 +29,26 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
+          tools: composer:v1
           coverage: none
 
       - name: Install dependencies
         run: composer i
 
+      - name: Install dependencies
+        run: composer require --dev nextcloud/ocp:${{ matrix.ocp-version }} --ignore-platform-reqs
+
       - name: Run coding standards check
         run: composer run psalm
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: static-analysis
+
+    if: always()
+
+    name: static-psalm-analysis-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.static-analysis.result != 'success' }}; then exit 1; fi

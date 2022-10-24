@@ -34,31 +34,46 @@ trait Formatter {
 			$this->timestamp = date($input->getOption('date-format'));
 		}
 
+		$jsonArray = ['user_id' => $userId];
 		$data = '"'. $userId . '"'. $separator;
 		if ($input->getOption('display-name')) {
+			$jsonArray['display_name'] = $report['display_name'];
 			$data .= '"' . $report['display_name'] . '"' . $separator;
 		}
+		$jsonArray['date'] = $this->timestamp;
 		$data .= '"'. $this->timestamp . '"'. $separator;
 		if ($input->getOption('last-login')) {
-			$data .= '"'. date($input->getOption('date-format'), $report['login']) . '"'. $separator;
+			$report['login'] = date($input->getOption('date-format'), $report['login']);
+			$jsonArray['login'] = $report['login'];
+			$data .= '"'. $report['login'] . '"'. $separator;
 		}
 
-		// ensure all fields we trying to print are set
+		// ensure all fields we are trying to print are set
 		$fields = ['quota', 'used', 'files', 'shares', 'uploads', 'downloads'];
 		foreach ($fields as $field) {
 			if (!isset($report[$field])) {
-				$report[$field] = '';
+				$report[$field] = 0;
 			}
 		}
 
 		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
+		$jsonArray['quota'] = $report['quota'];
 		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
+		$jsonArray['used'] = $report['used'];
 		$data .= $report['files'] . $separator;
+		$jsonArray['files'] = $report['files'];
 		$data .= $report['shares'] . $separator;
+		$jsonArray['shares'] = $report['shares'];
 		$data .= $report['uploads'] . $separator;
+		$jsonArray['uploads'] = $report['uploads'];
 		$data .= $report['downloads'];
+		$jsonArray['downloads'] = $report['downloads'];
 
-		$output->writeln($data);
+		if ($input->getOption('output') === 'csv') {
+			$output->writeln($data);
+		} else {
+			$output->writeln(json_encode($jsonArray));
+		}
 	}
 
 	public function humanFileSize($bytes) {

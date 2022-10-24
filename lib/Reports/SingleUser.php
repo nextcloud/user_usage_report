@@ -62,6 +62,9 @@ class SingleUser {
 		);
 
 		$report['quota'] = $this->getUserQuota($userId);
+		if (is_numeric($report['quota'])) {
+			$report['quota'] = (int) $report['quota'];
+		}
 		if ($input->getOption('last-login')) {
 			$report['login'] = $this->getUserLastLogin($userId);
 		}
