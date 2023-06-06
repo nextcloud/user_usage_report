@@ -23,13 +23,13 @@ declare(strict_types=1);
 
 namespace OCA\UserUsageReport\AppInfo;
 
+use OCA\UserUsageReport\Listener;
+use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IPreview;
 use OCP\Util;
-use OCA\UserUsageReport\Listener;
-use OCP\AppFramework\App;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App implements IBootstrap {
