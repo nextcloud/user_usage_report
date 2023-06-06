@@ -48,33 +48,33 @@ class Version1004Date20200626143122 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-//		/** @var ISchemaWrapper $schema */
-//		$schema = $schemaClosure();
-//
-//		if (!$schema->hasTable('usage_report_actions')) {
-//			$table = $schema->createTable('usage_report_actions');
-//			$table->addColumn('id', Types::BIGINT, [
-//				'autoincrement' => true,
-//				'notnull' => true,
-//				'length' => 20,
-//			]);
-//			$table->addColumn('user_id', Types::STRING, [
-//				'notnull' => true,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('action', Types::STRING, [
-//				'notnull' => false,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
-//				'notnull' => false,
-//			]);
-//			$table->addIndex(['user_id', 'action', 'datetime'], 'usage_report_uad');
-//
-//			$table->setPrimaryKey(['id']);
-//		}
-//
-//		return $schema;
+		//		/** @var ISchemaWrapper $schema */
+		//		$schema = $schemaClosure();
+		//
+		//		if (!$schema->hasTable('usage_report_actions')) {
+		//			$table = $schema->createTable('usage_report_actions');
+		//			$table->addColumn('id', Types::BIGINT, [
+		//				'autoincrement' => true,
+		//				'notnull' => true,
+		//				'length' => 20,
+		//			]);
+		//			$table->addColumn('user_id', Types::STRING, [
+		//				'notnull' => true,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('action', Types::STRING, [
+		//				'notnull' => false,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
+		//				'notnull' => false,
+		//			]);
+		//			$table->addIndex(['user_id', 'action', 'datetime'], 'usage_report_uad');
+		//
+		//			$table->setPrimaryKey(['id']);
+		//		}
+		//
+		//		return $schema;
 		return null;
 	}
 
