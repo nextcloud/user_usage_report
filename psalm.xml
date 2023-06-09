@@ -21,17 +21,23 @@
 	<issueHandlers>
 		<UndefinedClass>
 			<errorLevel type="suppress">
+				<referencedClass name="Doctrine\DBAL\Types\Types" />
 				<referencedClass name="OC" />
 				<referencedClass name="OC_Helper" />
-				<referencedClass name="Doctrine\DBAL\Types\Types" />
+				<referencedClass name="Symfony\Component\Console\Command\Command" />
+				<referencedClass name="Symfony\Component\Console\Helper\ProgressBar" />
+				<referencedClass name="Symfony\Component\Console\Input\InputInterface" />
+				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
+				<referencedClass name="Symfony\Component\EventDispatcher\GenericEvent" />
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedDocblockClass>
 			<errorLevel type="suppress">
+				<referencedClass name="Doctrine\DBAL\Driver\Statement" />
 				<referencedClass name="Doctrine\DBAL\Schema\Schema" />
 				<referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
-				<referencedClass name="Doctrine\DBAL\Driver\Statement" />
 				<referencedClass name="Doctrine\DBAL\Schema\Table" />
+				<referencedClass name="Symfony\Component\EventDispatcher\EventDispatcherInterface" />
 			</errorLevel>
 		</UndefinedDocblockClass>
 	</issueHandlers>
