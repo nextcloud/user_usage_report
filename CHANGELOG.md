@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.11.0 – 2023-03-03
+### Added
+- Compatibility with Nextcloud 27
+
 ## 1.10.0 – 2023-02-17
 ### Added
 - Compatibility with Nextcloud 26
