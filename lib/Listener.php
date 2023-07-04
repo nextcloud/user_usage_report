@@ -25,11 +25,19 @@ namespace OCA\UserUsageReport;
 
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Preview\BeforePreviewFetchedEvent;
 
-class Listener {
+/**
+ * @template-implements IEventListener<Event|BeforeNodeReadEvent|BeforePreviewFetchedEvent>
+ */
+class Listener implements IEventListener {
 
 	/** @var IUserSession */
 	protected $userSession;
@@ -46,6 +54,20 @@ class Listener {
 	public function __construct(IUserSession $userSession, IDBConnection $connection) {
 		$this->userSession = $userSession;
 		$this->connection = $connection;
+	}
+
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeNodeReadEvent) {
+			$this->fileRead();
+		}
+
+		if ($event instanceof BeforePreviewFetchedEvent && ($event->getHeight() > 256 || $event->getWidth() > 256)) {
+			$this->fileRead();
+		}
+
+		if ($event instanceof NodeCreatedEvent) {
+			$this->fileCreated();
+		}
 	}
 
 	/**

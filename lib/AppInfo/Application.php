@@ -28,9 +28,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\IPreview;
-use OCP\Util;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Preview\BeforePreviewFetchedEvent;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -38,19 +38,12 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(BeforeNodeReadEvent::class, Listener::class);
+		$context->registerEventListener(BeforePreviewFetchedEvent::class, Listener::class);
+		$context->registerEventListener(NodeCreatedEvent::class, Listener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		/** @var Listener $listener */
-		$listener = $context->getAppContainer()->get(Listener::class);
-
-		Util::connectHook('OC_Filesystem', 'post_create', $listener, 'fileCreated');
-		Util::connectHook('OC_Filesystem', 'read', $listener, 'fileRead');
-
-		$context->getServerContainer()->getEventDispatcher()->addListener(IPreview::EVENT, function (GenericEvent $event) use ($listener) {
-			if ($event->getArgument('width') > 256 || $event->getArgument('height') > 256) {
-				$listener->fileRead();
-			}
-		});
+		// done
 	}
 }
