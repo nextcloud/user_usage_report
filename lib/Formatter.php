@@ -37,13 +37,13 @@ trait Formatter {
 		$jsonArray = ['user_id' => $userId];
 		$data = '"'. $userId . '"'. $separator;
 		if ($input->getOption('display-name')) {
-			$jsonArray['display_name'] = $report['display_name'];
-			$data .= '"' . $report['display_name'] . '"' . $separator;
+			$jsonArray['display_name'] = $report['display_name'] ?? 'no display name found';
+			$data .= '"' . ($report['display_name'] ?? 'no display name found') . '"' . $separator;
 		}
 		$jsonArray['date'] = $this->timestamp;
 		$data .= '"'. $this->timestamp . '"'. $separator;
 		if ($input->getOption('last-login')) {
-			$report['login'] = date($input->getOption('date-format'), $report['login']);
+			$report['login'] = isset($report['login']) ? date($input->getOption('date-format'), $report['login']) : 'no last login found';
 			$jsonArray['login'] = $report['login'];
 			$data .= '"'. $report['login'] . '"'. $separator;
 		}
