@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.11.1 - 2023-11-15
+### Fixed
+- check if array offset exists before accessing it (https://github.com/nextcloud/user_usage_report/pull/183)
+
 ## 1.11.0 – 2023-06-09
 ### Added
 - Compatibility with Nextcloud 27
