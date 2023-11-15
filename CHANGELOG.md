@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.12.0 - 2023-06-28
+### Added
+- Compatibility with Nextcloud 28
+
+### Fixed
+- check if array offset exists before accessing it (https://github.com/nextcloud/user_usage_report/pull/183)
+
+### Changed
+- listen to typed filesystem events (https://github.com/nextcloud/user_usage_report/pull/175)
+
 ## 1.11.0 – 2023-03-03
 ### Added
 - Compatibility with Nextcloud 27
