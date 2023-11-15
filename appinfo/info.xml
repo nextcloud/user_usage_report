@@ -20,7 +20,7 @@ $ sudo -u www-data ./occ usage-report:generate --verbose admin
 ```
 ]]></description>
 
-	<version>1.11.0</version>
+	<version>1.11.1</version>
 	<licence>agpl</licence>
 	<author>Joas Schilling</author>
 
