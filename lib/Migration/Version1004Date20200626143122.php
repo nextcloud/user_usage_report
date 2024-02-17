@@ -78,48 +78,48 @@ class Version1004Date20200626143122 extends SimpleMigrationStep {
 		return null;
 	}
 
-//	/**
-//	 * @param IOutput $output
-//	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-//	 * @param array $options
-//	 */
-//	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-//		$insert = $this->connection->getQueryBuilder();
-//		$insert->insert('usage_report_actions')
-//			->values([
-//				'user_id' => $insert->createParameter('user'),
-//				'action' => $insert->createParameter('action'),
-//				'datetime' => $insert->createParameter('datetime'),
-//			]);
-//
-//		$query = $this->connection->getQueryBuilder();
-//		$query->select('*')
-//			->from('usage_report')
-//			->orderBy('timestamp', 'ASC')
-//			->addOrderBy('user_id', 'ASC')
-//			->addOrderBy('action', 'ASC')
-//			->setMaxResults(self::MIGRATION_SIZE);
-//
-//		$offset = 0;
-//		do {
-//			$query->setFirstResult($offset);
-//			$result = $query->execute();
-//			$rows = $result->fetchAll();
-//			$result->closeCursor();
-//
-//			if (empty($rows)) {
-//				return;
-//			}
-//
-//			foreach ($rows as $row) {
-//				$date = new \DateTime($row['timestamp']);
-//				$insert->setParameter('user', $row['user_id'])
-//					->setParameter('action', $row['action'])
-//					->setParameter('datetime', $date, IQueryBuilder::PARAM_DATE);
-//				$insert->execute();
-//			}
-//
-//			$offset += self::MIGRATION_SIZE;
-//		} while (true);
-//	}
+	//	/**
+	//	 * @param IOutput $output
+	//	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	//	 * @param array $options
+	//	 */
+	//	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	//		$insert = $this->connection->getQueryBuilder();
+	//		$insert->insert('usage_report_actions')
+	//			->values([
+	//				'user_id' => $insert->createParameter('user'),
+	//				'action' => $insert->createParameter('action'),
+	//				'datetime' => $insert->createParameter('datetime'),
+	//			]);
+	//
+	//		$query = $this->connection->getQueryBuilder();
+	//		$query->select('*')
+	//			->from('usage_report')
+	//			->orderBy('timestamp', 'ASC')
+	//			->addOrderBy('user_id', 'ASC')
+	//			->addOrderBy('action', 'ASC')
+	//			->setMaxResults(self::MIGRATION_SIZE);
+	//
+	//		$offset = 0;
+	//		do {
+	//			$query->setFirstResult($offset);
+	//			$result = $query->execute();
+	//			$rows = $result->fetchAll();
+	//			$result->closeCursor();
+	//
+	//			if (empty($rows)) {
+	//				return;
+	//			}
+	//
+	//			foreach ($rows as $row) {
+	//				$date = new \DateTime($row['timestamp']);
+	//				$insert->setParameter('user', $row['user_id'])
+	//					->setParameter('action', $row['action'])
+	//					->setParameter('datetime', $date, IQueryBuilder::PARAM_DATE);
+	//				$insert->execute();
+	//			}
+	//
+	//			$offset += self::MIGRATION_SIZE;
+	//		} while (true);
+	//	}
 }
