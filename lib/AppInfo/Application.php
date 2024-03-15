@@ -33,9 +33,12 @@ use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
 
 class Application extends App implements IBootstrap {
+	public const APP_ID = 'user_usage_report';
+	
 	public function __construct() {
-		parent::__construct('user_usage_report');
+		parent::__construct(self::APP_ID);
 	}
+
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(BeforeNodeReadEvent::class, Listener::class);
