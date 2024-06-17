@@ -215,6 +215,9 @@ class SingleUser {
 		$result = $query->executeQuery();
 		$data = $result->fetchOne();
 		$result->closeCursor();
+		if (empty($data)) {
+			return '';
+		}
 		$json = json_decode($data, true);
 		$displayName = $json['displayname']['value'];
 		return (string) $displayName;
