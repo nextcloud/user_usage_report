@@ -151,6 +151,9 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
+			if (!array_key_exists($row['user_id'], $this->reports)) {
+				continue;
+			}
 			try {
 				$metric = $this->actionToMetric($row['action']);
 				$this->reports[$row['user_id']][$metric] = (int) $row['num_actions'];
@@ -232,6 +235,9 @@ class AllUsers {
 			}
 
 			$userId = $this->storageMap[$row['id']];
+			if (!array_key_exists($userId, $this->reports)) {
+				continue;
+			}
 			$this->reports[$userId]['used'] = $this->storages[$storage]['used'];
 			$this->reports[$userId]['files'] = $this->storages[$storage]['files'];
 			unset($this->storages[$storage]);
@@ -259,8 +265,12 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
+			if (!array_key_exists($row['userid'], $this->reports)) {
+				continue;
+			}
 			if ($row['configvalue'] !== 'default') {
 				$quota = \OC_Helper::computerFileSize($row['configvalue']);
+
 				$this->reports[$row['userid']]['quota'] = $quota === false ? $row['configvalue'] : $quota;
 			}
 			$numResults++;
@@ -290,6 +300,9 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
+			if (!array_key_exists($row['userid'], $this->reports)) {
+				continue;
+			}
 			$this->reports[$row['userid']]['login'] = $row['configvalue'];
 			$numResults++;
 		}
@@ -318,6 +331,9 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
+			if (!array_key_exists($row['uid_initiator'], $this->reports)) {
+				continue;
+			}
 			$this->reports[$row['uid_initiator']]['shares'] = (int) $row['num_shares'];
 			$numResults++;
 		}
