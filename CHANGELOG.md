@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.12.1 - 2024-06-27
+
+Many thanks to https://github.com/jmcclelland
+
+### Fixed
+- fix: ensure the userid exist before adding data to report (https://github.com/nextcloud/user_usage_report/pull/281)
+- fix: handle missing display name for single user reports (https://github.com/nextcloud/user_usage_report/pull/282)
+
 ## 1.12.0 - 2023-11-27
 ### Added
 - Compatibility with Nextcloud 28
