@@ -318,7 +318,9 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
-			$this->reports[$row['uid_initiator']]['shares'] = (int) $row['num_shares'];
+			if (array_key_exists($row['uid_initiator'], $this->reports)) {
+				$this->reports[$row['uid_initiator']]['shares'] = (int) $row['num_shares'];
+			}
 			$numResults++;
 		}
 		$result->closeCursor();
@@ -328,7 +330,7 @@ class AllUsers {
 
 	/**
 	 * @param string $action
-	 * @return string
+	 * @return 'uploads'|'downloads'
 	 * @throws \InvalidArgumentException
 	 */
 	protected function actionToMetric(string $action): string {
