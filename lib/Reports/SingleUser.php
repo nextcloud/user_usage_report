@@ -69,7 +69,9 @@ class SingleUser {
 			$report['login'] = $this->getUserLastLogin($userId);
 		}
 		$report['shares'] = $this->getNumberOfSharesForUser($userId);
-		$report['display_name'] = $this->getUserDisplayName($userId);
+		if ($input->getOption('display-name')) {
+			$report['display_name'] = $this->getUserDisplayName($userId);
+		}
 
 		$this->printRecord($input, $output, $userId, $report);
 	}
@@ -205,19 +207,16 @@ class SingleUser {
 		return $numShares;
 	}
 
-	/**
-	 * @param string $userId
-	 * @return string
-	 */
-	protected function getUserDisplayName(string $userId): string {
+	protected function getUserDisplayName(string $userId): ?string {
 		$query = $this->queries['displayName'];
 		$query->setParameter('user', $userId);
 		$result = $query->executeQuery();
-		$data = $result->fetchOne();
-		$result->closeCursor();
-		$json = json_decode($data, true);
-		$displayName = $json['displayname']['value'];
-		return (string) $displayName;
+
+		if ($result->rowCount() === 0) {
+			return null;
+		}
+
+		return (string) $result->fetchOne();
 	}
 
 
@@ -303,9 +302,10 @@ class SingleUser {
 
 		// Get User Display Name
 		$query = $this->connection->getQueryBuilder();
-		$query->select('data')
-			->from('accounts')
-		  ->where($query->expr()->eq('uid', $query->createParameter('user')));
+		$query->select('value')
+			->from('accounts_data')
+			->where($query->expr()->eq('name', $query->createNamedParameter('displayname')))
+			->andWhere($query->expr()->eq('uid', $query->createParameter('user')));
 		$this->queries['displayName'] = $query;
 	}
 }
