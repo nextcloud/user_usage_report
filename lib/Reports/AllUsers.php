@@ -151,6 +151,9 @@ class AllUsers {
 		$result = $query->executeQuery();
 		$numResults = 0;
 		while ($row = $result->fetch()) {
+			if (!array_key_exists($row['user_id'], $this->reports)) {
+			    continue;
+			}
 			try {
 				$metric = $this->actionToMetric($row['action']);
 				$this->reports[$row['user_id']][$metric] = (int) $row['num_actions'];
