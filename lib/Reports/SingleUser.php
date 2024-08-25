@@ -63,7 +63,7 @@ class SingleUser {
 
 		$report['quota'] = $this->getUserQuota($userId);
 		if (is_numeric($report['quota'])) {
-			$report['quota'] = (int) $report['quota'];
+			$report['quota'] = (int)$report['quota'];
 		}
 		if ($input->getOption('last-login')) {
 			$report['login'] = $this->getUserLastLogin($userId);
@@ -93,7 +93,7 @@ class SingleUser {
 		while ($row = $result->fetch()) {
 			try {
 				$metric = $this->actionToMetric($row['action']);
-				$numActions[$metric] = (int) $row['num_actions'];
+				$numActions[$metric] = (int)$row['num_actions'];
 			} catch (\InvalidArgumentException $e) {
 				continue;
 			}
@@ -117,7 +117,7 @@ class SingleUser {
 
 		$query->setParameter('storage_identifier', $home);
 		$result = $query->executeQuery();
-		$storageId = (int) $result->fetchOne();
+		$storageId = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		if ($storageId === 0) {
@@ -128,20 +128,20 @@ class SingleUser {
 
 			$query->setParameter('storage_identifier', $home);
 			$result = $query->executeQuery();
-			$storageId = (int) $result->fetchOne();
+			$storageId = (int)$result->fetchOne();
 			$result->closeCursor();
 		}
 
 		$query = $this->queries['countFiles'];
 		$query->setParameter('storage_identifier', $storageId);
 		$result = $query->executeQuery();
-		$numFiles = (int) $result->fetchOne();
+		$numFiles = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		$query = $this->queries['getUsedSpace'];
 		$query->setParameter('storage_identifier', $storageId);
 		$result = $query->executeQuery();
-		$usedSpace = (int) $result->fetchOne();
+		$usedSpace = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		return [
@@ -161,7 +161,7 @@ class SingleUser {
 		$lastLogin = $result->fetchOne();
 		$result->closeCursor();
 
-		return (int) $lastLogin;
+		return (int)$lastLogin;
 	}
 
 	/**
@@ -176,7 +176,7 @@ class SingleUser {
 		$result->closeCursor();
 
 		if (is_numeric($quota)) {
-			return (int) $quota;
+			return (int)$quota;
 		}
 
 		if ($quota === 'none') {
@@ -186,11 +186,11 @@ class SingleUser {
 		if ($quota) {
 			$quota = \OC_Helper::computerFileSize($quota);
 			if ($quota !== false) {
-				return (int) $quota;
+				return (int)$quota;
 			}
 		}
 
-		return $this->config->getAppValue('files', 'default_quota', (string) FileInfo::SPACE_UNKNOWN);
+		return $this->config->getAppValue('files', 'default_quota', (string)FileInfo::SPACE_UNKNOWN);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class SingleUser {
 		$query = $this->queries['countShares'];
 		$query->setParameter('initiator', $userId);
 		$result = $query->executeQuery();
-		$numShares = (int) $result->fetchOne();
+		$numShares = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		return $numShares;
@@ -216,7 +216,7 @@ class SingleUser {
 			return null;
 		}
 
-		return (string) $result->fetchOne();
+		return (string)$result->fetchOne();
 	}
 
 

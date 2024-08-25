@@ -79,7 +79,7 @@ class AllUsers {
 			'downloads' => 0,
 			'files' => 0,
 			'used' => FileInfo::SPACE_UNKNOWN,
-			'quota' => $this->config->getAppValue('files', 'default_quota', (string) FileInfo::SPACE_UNKNOWN),
+			'quota' => $this->config->getAppValue('files', 'default_quota', (string)FileInfo::SPACE_UNKNOWN),
 			'shares' => 0,
 			'login' => 0,
 			'display_name' => '',
@@ -153,7 +153,7 @@ class AllUsers {
 		while ($row = $result->fetch()) {
 			try {
 				$metric = $this->actionToMetric($row['action']);
-				$this->reports[$row['user_id']][$metric] = (int) $row['num_actions'];
+				$this->reports[$row['user_id']][$metric] = (int)$row['num_actions'];
 			} catch (\InvalidArgumentException $e) {
 			}
 			$numResults++;
@@ -188,11 +188,11 @@ class AllUsers {
 
 		while ($row = $result->fetch()) {
 			if ($first === 0) {
-				$first = (int) $row['storage'];
+				$first = (int)$row['storage'];
 			}
-			$last = (int) $row['storage'];
+			$last = (int)$row['storage'];
 			$this->storages[$last] = [
-				'files' => (int) $row['num_files'],
+				'files' => (int)$row['num_files'],
 				'used' => FileInfo::SPACE_UNKNOWN,
 			];
 			$numResults++;
@@ -212,7 +212,7 @@ class AllUsers {
 
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
-			$this->storages[(int) $row['storage']]['used'] = (int) $row['size'];
+			$this->storages[(int)$row['storage']]['used'] = (int)$row['size'];
 		}
 		$result->closeCursor();
 	}
@@ -224,7 +224,7 @@ class AllUsers {
 
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
-			$storage = (int) $row['numeric_id'];
+			$storage = (int)$row['numeric_id'];
 
 			if (!isset($this->storageMap[$row['id']], $this->storages[$storage])) {
 				unset($this->storages[$storage]);
@@ -319,7 +319,7 @@ class AllUsers {
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			if (array_key_exists($row['uid_initiator'], $this->reports)) {
-				$this->reports[$row['uid_initiator']]['shares'] = (int) $row['num_shares'];
+				$this->reports[$row['uid_initiator']]['shares'] = (int)$row['num_shares'];
 			}
 			$numResults++;
 		}
