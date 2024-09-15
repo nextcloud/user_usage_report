@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 1.14.0 - unreleased
+## 1.14.0 - 2024-09-15
 
 Many thanks to https://github.com/jmcclelland
 
