@@ -142,16 +142,16 @@ class Generate extends Command {
 
 			$header = [];
 			$header['user_id'] = '';
-			$data = '"user-id"'. $separator;
+			$data = '"user-id"' . $separator;
 			if ($input->getOption('display-name')) {
 				$header['display_name'] = '';
-				$data .= '"display name"'. $separator;
+				$data .= '"display name"' . $separator;
 			}
 			$header['date'] = '';
-			$data .= '"date as \'' . $input->getOption('date-format') . '\'"'. $separator;
+			$data .= '"date as \'' . $input->getOption('date-format') . '\'"' . $separator;
 			if ($input->getOption('last-login')) {
 				$header['login'] = '';
-				$data .= '"last login date as \'' . $input->getOption('date-format') . '\'"'. $separator;
+				$data .= '"last login date as \'' . $input->getOption('date-format') . '\'"' . $separator;
 			}
 			$header['quota'] = '';
 			$data .= '"assigned quota (5 GB)"' . $separator;
