@@ -35,17 +35,17 @@ trait Formatter {
 		}
 
 		$jsonArray = ['user_id' => $userId];
-		$data = '"'. $userId . '"'. $separator;
+		$data = '"' . $userId . '"' . $separator;
 		if ($input->getOption('display-name')) {
 			$jsonArray['display_name'] = $report['display_name'] ?? 'no display name found';
 			$data .= '"' . ($report['display_name'] ?? 'no display name found') . '"' . $separator;
 		}
 		$jsonArray['date'] = $this->timestamp;
-		$data .= '"'. $this->timestamp . '"'. $separator;
+		$data .= '"' . $this->timestamp . '"' . $separator;
 		if ($input->getOption('last-login')) {
 			$report['login'] = isset($report['login']) ? date($input->getOption('date-format'), $report['login']) : 'no last login found';
 			$jsonArray['login'] = $report['login'];
-			$data .= '"'. $report['login'] . '"'. $separator;
+			$data .= '"' . $report['login'] . '"' . $separator;
 		}
 
 		// ensure all fields we are trying to print are set
@@ -56,9 +56,9 @@ trait Formatter {
 			}
 		}
 
-		$data .= (!is_numeric($report['quota']) ? '"'. $report['quota'] . '"' : $report['quota']). $separator;
+		$data .= (!is_numeric($report['quota']) ? '"' . $report['quota'] . '"' : $report['quota']) . $separator;
 		$jsonArray['quota'] = $report['quota'];
-		$data .= (!is_numeric($report['used']) ? '"'. $report['used'] . '"' : $report['used']). $separator;
+		$data .= (!is_numeric($report['used']) ? '"' . $report['used'] . '"' : $report['used']) . $separator;
 		$jsonArray['used'] = $report['used'];
 		$data .= $report['files'] . $separator;
 		$jsonArray['files'] = $report['files'];
