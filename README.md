@@ -4,6 +4,8 @@
 -->
 # User usage report
 
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/user_usage_report)](https://api.reuse.software/info/github.com/nextcloud/user_usage_report)
+
 To generate the report for a user, run the following command:
 
 ```sh
