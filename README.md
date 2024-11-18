@@ -1,4 +1,10 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # User usage report
+
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/user_usage_report)](https://api.reuse.software/info/github.com/nextcloud/user_usage_report)
 
 To generate the report for a user, run the following command:
 
