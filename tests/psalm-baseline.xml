@@ -1,2 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.12.0@f90118cdeacd0088e7215e64c0c99ceca819e176"/>
+<files psalm-version="6.7.1@a2f190972555ea01b0cfcc1913924d6c5fc1a64e">
+  <file src="lib/AppInfo/Application.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function boot(IBootContext $context): void {]]></code>
+      <code><![CDATA[public function register(IRegistrationContext $context): void {]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[Application]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Command/Generate.php">
+    <PossiblyUnusedParam>
+      <code><![CDATA[$all]]></code>
+      <code><![CDATA[$input]]></code>
+      <code><![CDATA[$output]]></code>
+      <code><![CDATA[$single]]></code>
+      <code><![CDATA[$userManager]]></code>
+    </PossiblyUnusedParam>
+    <UnusedClass>
+      <code><![CDATA[Generate]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Formatter.php">
+    <InvalidOperand>
+      <code><![CDATA[$bytes / 1024]]></code>
+      <code><![CDATA[$bytes / 1024]]></code>
+      <code><![CDATA[$bytes / 1024]]></code>
+      <code><![CDATA[$bytes / 1024]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/Listener.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)]]></code>
+    </ImplicitToStringCast>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function handle(Event $event): void {]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="lib/Migration/Version1001Date20180806133516.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[Version1001Date20180806133516]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Migration/Version1004Date20200626143122.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[Version1004Date20200626143122]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Migration/Version1004Date20200626143419.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[Version1004Date20200626143419]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Migration/Version1004Date20200630071803.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {]]></code>
+      <code><![CDATA[public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[Version1004Date20200630071803]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Reports/AllUsers.php">
+    <UnusedClass>
+      <code><![CDATA[AllUsers]]></code>
+    </UnusedClass>
+  </file>
+  <file src="lib/Reports/SingleUser.php">
+    <UnusedClass>
+      <code><![CDATA[SingleUser]]></code>
+    </UnusedClass>
+  </file>
+</files>
