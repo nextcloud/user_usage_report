@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ - SPDX-FileCopyrightText: 2016 Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="../vendor-bin/phpunit/vendor/phpunit/phpunit/phpunit.xsd"
+		 colors="true"
+		 bootstrap="bootstrap.php"
+>
+	<source>
+		<include>
+			<directory suffix=".php">../../user_usage_report/lib</directory>
+		</include>
+		<exclude>
+			<directory suffix=".php">../../user_usage_report/l10n</directory>
+			<directory suffix=".php">../../user_usage_report/tests</directory>
+		</exclude>
+	</source>
+	<testsuite name="user_usage_report tests">
+		<directory suffix="Test.php">.</directory>
+	</testsuite>
+</phpunit>

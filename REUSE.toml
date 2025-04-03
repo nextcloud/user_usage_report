@@ -6,7 +6,7 @@ SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
 SPDX-PackageDownloadLocation = "https://github.com/nextcloud/user_usage_report"
 
 [[annotations]]
-path = ["composer.json", "composer.lock"]
+path = ["composer.json", "composer.lock", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "20221 Nextcloud GmbH and Nextcloud contributors"
-SPDX-License-Identifier = "AGPL-3.0-or-later"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"

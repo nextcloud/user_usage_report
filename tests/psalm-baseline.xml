@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.7.1@a2f190972555ea01b0cfcc1913924d6c5fc1a64e">
+<files psalm-version="6.10.0@9c0add4eb88d4b169ac04acb7c679918cbb9c252">
   <file src="lib/AppInfo/Application.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function boot(IBootContext $context): void {]]></code>
-      <code><![CDATA[public function register(IRegistrationContext $context): void {]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[Application]]></code>
     </UnusedClass>
   </file>
   <file src="lib/Command/Generate.php">
-    <PossiblyUnusedParam>
-      <code><![CDATA[$all]]></code>
-      <code><![CDATA[$input]]></code>
-      <code><![CDATA[$output]]></code>
-      <code><![CDATA[$single]]></code>
-      <code><![CDATA[$userManager]]></code>
-    </PossiblyUnusedParam>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$stream]]></code>
+      <code><![CDATA[json_encode($header)]]></code>
+    </PossiblyFalseArgument>
     <UnusedClass>
       <code><![CDATA[Generate]]></code>
     </UnusedClass>
@@ -28,59 +21,71 @@
       <code><![CDATA[$bytes / 1024]]></code>
       <code><![CDATA[$bytes / 1024]]></code>
     </InvalidOperand>
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($jsonArray)]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[humanFileSize]]></code>
+      <code><![CDATA[humanFileSize]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="lib/Listener.php">
     <ImplicitToStringCast>
       <code><![CDATA[$query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)]]></code>
     </ImplicitToStringCast>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function handle(Event $event): void {]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="lib/Migration/Version1001Date20180806133516.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[Version1001Date20180806133516]]></code>
     </UnusedClass>
   </file>
   <file src="lib/Migration/Version1004Date20200626143122.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[Version1004Date20200626143122]]></code>
     </UnusedClass>
   </file>
   <file src="lib/Migration/Version1004Date20200626143419.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[Version1004Date20200626143419]]></code>
     </UnusedClass>
   </file>
   <file src="lib/Migration/Version1004Date20200630071803.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {]]></code>
-      <code><![CDATA[public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {]]></code>
-    </MissingOverrideAttribute>
+    <PossiblyInvalidMethodCall>
+      <code><![CDATA[closeCursor]]></code>
+      <code><![CDATA[fetchAll]]></code>
+    </PossiblyInvalidMethodCall>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$schema->dropTable('usage_report_actions')]]></code>
+    </UndefinedDocblockClass>
     <UnusedClass>
       <code><![CDATA[Version1004Date20200630071803]]></code>
     </UnusedClass>
   </file>
   <file src="lib/Reports/AllUsers.php">
-    <UnusedClass>
-      <code><![CDATA[AllUsers]]></code>
-    </UnusedClass>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <UndefinedClass>
+      <code><![CDATA[\OC_Helper]]></code>
+    </UndefinedClass>
   </file>
   <file src="lib/Reports/SingleUser.php">
-    <UnusedClass>
-      <code><![CDATA[SingleUser]]></code>
-    </UnusedClass>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$config]]></code>
+    </PossiblyUnusedProperty>
+    <UndefinedClass>
+      <code><![CDATA[\OC_Helper]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="vendor-bin/psalm/vendor/symfony/console/Command/Command.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$name]]></code>
+    </PossiblyNullArgument>
   </file>
 </files>
