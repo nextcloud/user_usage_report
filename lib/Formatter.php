@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 trait Formatter {
-	protected $timestamp;
+	protected ?int $timestamp = null;
 
-	protected function printRecord(InputInterface $input, OutputInterface $output, $userId, array $report): void {
+	protected function printRecord(InputInterface $input, OutputInterface $output, string $userId, array $report): void {
 		$separator = $input->getOption('field-separator');
 		if ($this->timestamp === null) {
 			$this->timestamp = date($input->getOption('date-format'));
@@ -57,7 +57,10 @@ trait Formatter {
 		if ($input->getOption('output') === 'csv') {
 			$output->writeln($data);
 		} else {
-			$output->writeln(json_encode($jsonArray));
+			$json = json_encode($jsonArray);
+			if ($json !== false) {
+				$output->writeln($json);
+			}
 		}
 	}
 }

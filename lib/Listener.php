@@ -21,24 +21,18 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 
 /**
  * @template-implements IEventListener<Event|BeforeNodeReadEvent|BeforePreviewFetchedEvent>
+ * @psalm-api
  */
 class Listener implements IEventListener {
 
-	/** @var IUserSession */
-	protected $userSession;
+	protected ?IQueryBuilder $insert = null;
 
-	/** @var IDBConnection */
-	protected $connection;
+	protected ?IQueryBuilder $update = null;
 
-	/** @var IQueryBuilder */
-	protected $insert;
-
-	/** @var IQueryBuilder */
-	protected $update;
-
-	public function __construct(IUserSession $userSession, IDBConnection $connection) {
-		$this->userSession = $userSession;
-		$this->connection = $connection;
+	public function __construct(
+		private readonly IUserSession $userSession,
+		private readonly IDBConnection $connection,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -111,7 +105,7 @@ class Listener implements IEventListener {
 			->set('configvalue',
 				$query->expr()->castColumn(
 					$query->createFunction(
-						'(' . $query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
+						'(' . (string)$query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)
 						. ' + 1)'
 					), IQueryBuilder::PARAM_STR
 				)

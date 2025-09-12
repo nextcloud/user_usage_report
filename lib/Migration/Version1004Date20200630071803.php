@@ -15,6 +15,9 @@ use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
+/**
+ * @psalm-api
+ */
 class Version1004Date20200630071803 extends SimpleMigrationStep {
 	public const MIGRATION_SIZE = 2000;
 
@@ -64,7 +67,7 @@ class Version1004Date20200630071803 extends SimpleMigrationStep {
 		$offset = 0;
 		do {
 			$query->setFirstResult($offset);
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$rows = $result->fetchAll();
 			$result->closeCursor();
 
@@ -77,7 +80,7 @@ class Version1004Date20200630071803 extends SimpleMigrationStep {
 					->setParameter('appid', 'user_usage_report')
 					->setParameter('configkey', $row['action'])
 					->setParameter('configvalue', $row['num_actions']);
-				$insert->execute();
+				$insert->executeStatement();
 			}
 
 			$offset += self::MIGRATION_SIZE;
