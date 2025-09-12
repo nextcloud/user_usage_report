@@ -245,7 +245,7 @@ class AllUsers {
 		$numResults = 0;
 		while ($row = $result->fetch()) {
 			if ($row['configvalue'] !== 'default') {
-				$quota = \OC_Helper::computerFileSize($row['configvalue']);
+				$quota = \OCP\Util::computerFileSize($row['configvalue']);
 				$this->reports[$row['userid']]['quota'] = $quota === false ? $row['configvalue'] : $quota;
 			}
 			$numResults++;
