@@ -19,6 +19,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 
+/**
+ * @psalm-api
+ */
 #[AsCommand(
 	name: 'usage-report:generate',
 	description: 'Generate usage report',
