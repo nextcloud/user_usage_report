@@ -17,6 +17,9 @@ use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
 
+/**
+ * @psalm-api
+ */
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'user_usage_report';
 

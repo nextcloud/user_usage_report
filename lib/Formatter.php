@@ -7,7 +7,6 @@
 
 namespace OCA\UserUsageReport;
 
-use OCP\Files\FileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -60,34 +59,5 @@ trait Formatter {
 		} else {
 			$output->writeln(json_encode($jsonArray));
 		}
-	}
-
-	public function humanFileSize($bytes) {
-		if ($bytes < 0) {
-			return FileInfo::SPACE_UNKNOWN;
-		}
-
-		if ($bytes < 1024) {
-			return "$bytes B";
-		}
-		$bytes = round($bytes / 1024, 2);
-		if ($bytes < 1024) {
-			return "$bytes KB";
-		}
-		$bytes = round($bytes / 1024, 2);
-		if ($bytes < 1024) {
-			return "$bytes MB";
-		}
-		$bytes = round($bytes / 1024, 2);
-		if ($bytes < 1024) {
-			return "$bytes GB";
-		}
-		$bytes = round($bytes / 1024, 2);
-		if ($bytes < 1024) {
-			return "$bytes TB";
-		}
-
-		$bytes = round($bytes / 1024, 2);
-		return "$bytes PB";
 	}
 }
