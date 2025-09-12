@@ -7,19 +7,9 @@
     </PossiblyFalseArgument>
   </file>
   <file src="lib/Formatter.php">
-    <InvalidOperand>
-      <code><![CDATA[$bytes / 1024]]></code>
-      <code><![CDATA[$bytes / 1024]]></code>
-      <code><![CDATA[$bytes / 1024]]></code>
-      <code><![CDATA[$bytes / 1024]]></code>
-    </InvalidOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[json_encode($jsonArray)]]></code>
     </PossiblyFalseArgument>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[humanFileSize]]></code>
-      <code><![CDATA[humanFileSize]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="lib/Listener.php">
     <ImplicitToStringCast>
