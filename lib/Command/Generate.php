@@ -108,7 +108,12 @@ class Generate extends Command {
 
 		if ($outputFile) {
 			$stream = fopen($outputFile, 'w');
-			$streamOutput = new StreamOutput($stream, $output->getVerbosity(), null, $output->getFormatter());
+			if ($stream) {
+				$streamOutput = new StreamOutput($stream, $output->getVerbosity(), null, $output->getFormatter());
+			} else {
+				$output->writeln('<error>Unable to open ' . $outputFile . '.</error>');
+				return 1;
+			}
 		} else {
 			$streamOutput = $output;
 		}
@@ -153,7 +158,7 @@ class Generate extends Command {
 			if ($input->getOption('output') === 'csv') {
 				$streamOutput->writeln($data);
 			} else {
-				$streamOutput->writeln(json_encode($header));
+				$streamOutput->writeln(json_encode($header, JSON_THROW_ON_ERROR));
 			}
 		}
 

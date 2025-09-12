@@ -4,7 +4,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <psalm
-	errorLevel="3"
+	errorLevel="2"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
@@ -17,9 +17,16 @@
 		<directory name="lib"/>
 		<ignoreFiles>
 			<directory name="vendor"/>
+			<directory name="vendor-bin"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="vendor"/>
 	</extraFiles>
+	<stubs>
+		<file name="tests/stubs/doctrine_dbal_schema_abstractasset.php" />
+		<file name="tests/stubs/doctrine_dbal_schema_column.php" />
+		<file name="tests/stubs/doctrine_dbal_schema_schema.php" />
+		<file name="tests/stubs/doctrine_dbal_schema_table.php" />
+	</stubs>
 </psalm>

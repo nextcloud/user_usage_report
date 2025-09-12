@@ -11,33 +11,27 @@ namespace OCA\UserUsageReport\Reports;
 use OCA\UserUsageReport\Formatter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @psalm-api
+ */
 class SingleUser {
 	use Formatter;
 
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IConfig */
-	protected $config;
 
 	/** @var IQueryBuilder[] */
-	protected $queries = [];
+	protected array $queries = [];
 
-	public function __construct(IDBConnection $connection, IConfig $config) {
-		$this->connection = $connection;
-		$this->config = $config;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected IAppConfig $config,
+	) {
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @param string $userId
-	 */
 	public function printReport(InputInterface $input, OutputInterface $output, string $userId): void {
 		$this->createQueries();
 
@@ -149,11 +143,7 @@ class SingleUser {
 		return (int)$lastLogin;
 	}
 
-	/**
-	 * @param string $userId
-	 * @return int|string
-	 */
-	protected function getUserQuota(string $userId) {
+	protected function getUserQuota(string $userId): int|float|string {
 		$query = $this->queries['getQuota'];
 		$query->setParameter('user', $userId);
 		$result = $query->executeQuery();
@@ -161,21 +151,21 @@ class SingleUser {
 		$result->closeCursor();
 
 		if (is_numeric($quota)) {
-			return (int)$quota;
+			return $quota;
 		}
 
 		if ($quota === 'none') {
 			return FileInfo::SPACE_UNLIMITED;
 		}
 
-		if ($quota) {
-			$quota = \OC_Helper::computerFileSize($quota);
+		if ($quota !== false) {
+			$quota = \OCP\Util::computerFileSize($quota);
 			if ($quota !== false) {
-				return (int)$quota;
+				return $quota;
 			}
 		}
 
-		return $this->config->getAppValue('files', 'default_quota', (string)FileInfo::SPACE_UNKNOWN);
+		return $this->config->getValueString('files', 'default_quota', (string)FileInfo::SPACE_UNKNOWN);
 	}
 
 	/**
