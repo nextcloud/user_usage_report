@@ -68,9 +68,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
     </PossiblyUnusedMethod>
-    <UndefinedClass>
-      <code><![CDATA[\OC_Helper]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/Reports/SingleUser.php">
     <PossiblyUnusedMethod>
