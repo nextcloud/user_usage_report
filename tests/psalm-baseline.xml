@@ -1,70 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.10.0@9c0add4eb88d4b169ac04acb7c679918cbb9c252">
-  <file src="lib/Command/Generate.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[$stream]]></code>
-      <code><![CDATA[json_encode($header)]]></code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="lib/Formatter.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[json_encode($jsonArray)]]></code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="lib/Listener.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$query->expr()->castColumn('configvalue', IQueryBuilder::PARAM_INT)]]></code>
-    </ImplicitToStringCast>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="lib/Migration/Version1001Date20180806133516.php">
-    <UnusedClass>
-      <code><![CDATA[Version1001Date20180806133516]]></code>
-    </UnusedClass>
-  </file>
-  <file src="lib/Migration/Version1004Date20200626143122.php">
-    <UnusedClass>
-      <code><![CDATA[Version1004Date20200626143122]]></code>
-    </UnusedClass>
-  </file>
-  <file src="lib/Migration/Version1004Date20200626143419.php">
-    <UnusedClass>
-      <code><![CDATA[Version1004Date20200626143419]]></code>
-    </UnusedClass>
-  </file>
-  <file src="lib/Migration/Version1004Date20200630071803.php">
-    <PossiblyInvalidMethodCall>
-      <code><![CDATA[closeCursor]]></code>
-      <code><![CDATA[fetchAll]]></code>
-    </PossiblyInvalidMethodCall>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$schema->dropTable('usage_report_actions')]]></code>
-    </UndefinedDocblockClass>
-    <UnusedClass>
-      <code><![CDATA[Version1004Date20200630071803]]></code>
-    </UnusedClass>
-  </file>
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="lib/Reports/AllUsers.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="lib/Reports/SingleUser.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$config]]></code>
-    </PossiblyUnusedProperty>
-    <UndefinedClass>
-      <code><![CDATA[\OC_Helper]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="vendor-bin/psalm/vendor/symfony/console/Command/Command.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$name]]></code>
-    </PossiblyNullArgument>
+    <DeprecatedMethod>
+      <code><![CDATA[getAppValue]]></code>
+    </DeprecatedMethod>
   </file>
 </files>
