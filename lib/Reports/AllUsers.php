@@ -115,7 +115,7 @@ class AllUsers {
 		$progress->clear();
 
 		foreach ($this->reports as $userId => $report) {
-			$this->printRecord($input, $streamOutput, $userId, $report);
+			$this->printRecord($input, $streamOutput, (string)$userId, $report);
 		}
 	}
 
