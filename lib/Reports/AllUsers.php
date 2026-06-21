@@ -111,7 +111,6 @@ class AllUsers {
 		}
 		$progress->advance();
 
-
 		$progress->clear();
 
 		foreach ($this->reports as $userId => $report) {

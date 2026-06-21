@@ -27,7 +27,6 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
-
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(BeforeNodeReadEvent::class, Listener::class);
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, Listener::class);
