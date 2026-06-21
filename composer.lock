@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f314d91691ea680db7b548655b3905e0",
+    "content-hash": "162f1a95f4a99b2469ea207f09e5c2c7",
     "packages": [],
     "packages-dev": [
         {
@@ -70,16 +70,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "b01a80e20e17c3bf3c5d8a0246289ec465fd0b0f"
+                "reference": "57eba542a591eb3c3c093cd12b0dce770132adda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/b01a80e20e17c3bf3c5d8a0246289ec465fd0b0f",
-                "reference": "b01a80e20e17c3bf3c5d8a0246289ec465fd0b0f",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/57eba542a591eb3c3c093cd12b0dce770132adda",
+                "reference": "57eba542a591eb3c3c093cd12b0dce770132adda",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1 || ~8.2 || ~8.3 || ~8.4 || ~8.5",
+                "php": "~8.3 || ~8.4 || ~8.5",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0.2",
                 "psr/event-dispatcher": "^1.0",
@@ -112,7 +112,7 @@
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
                 "source": "https://github.com/nextcloud-deps/ocp/tree/master"
             },
-            "time": "2026-06-04T02:37:15+00:00"
+            "time": "2026-06-19T02:51:56+00:00"
         },
         {
             "name": "psr/clock",
@@ -431,7 +431,7 @@
     "platform": {},
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.1"
+        "php": "8.3"
     },
     "plugin-api-version": "2.9.0"
 }

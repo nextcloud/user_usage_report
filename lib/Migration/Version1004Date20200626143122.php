@@ -18,7 +18,7 @@ use OCP\Migration\SimpleMigrationStep;
  * @psalm-api
  */
 class Version1004Date20200626143122 extends SimpleMigrationStep {
-	public const MIGRATION_SIZE = 500;
+	public const int MIGRATION_SIZE = 500;
 
 	/** @var IDBConnection */
 	protected $connection;
