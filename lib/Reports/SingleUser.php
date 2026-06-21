@@ -22,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SingleUser {
 	use Formatter;
 
-
 	/** @var IQueryBuilder[] */
 	protected array $queries = [];
 
@@ -193,7 +192,6 @@ class SingleUser {
 
 		return (string)$result->fetchOne();
 	}
-
 
 	/**
 	 * @param string $action
