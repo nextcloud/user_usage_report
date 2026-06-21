@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @psalm-api
  */
 class AllUsers {
-	public const BATCH_SIZE = 1000;
+	public const int BATCH_SIZE = 1000;
 
 	use Formatter;
 

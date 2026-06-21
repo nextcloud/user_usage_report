@@ -21,7 +21,7 @@ use OCP\Preview\BeforePreviewFetchedEvent;
  * @psalm-api
  */
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'user_usage_report';
+	public const string APP_ID = 'user_usage_report';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
