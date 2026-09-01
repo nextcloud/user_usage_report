@@ -11,4 +11,4 @@ d1821b8a816578070ed8fd018f321f6d pr-feedback.yml
 6dc046dfbca5dc65d938265c518fcac4 psalm.yml
 2dbec18233063b42f4d8e03bbb43671c reuse.yml
 a3440826636c0fd7c2d20b1de50363da update-nextcloud-ocp-approve-merge.yml
-f5632e6d28c6afca9d4d46131fb48d57 update-nextcloud-ocp.yml
+1919e2ff468e875aeeae5fd088d4ce1f update-nextcloud-ocp.yml
